@@ -110,7 +110,8 @@ export default function BookAppointment() {
   const getQRData = () => {
     // This creates a link to the receipt page. 
     // e.g. http://localhost:3000/receipt/123e4567-e89b-12d3-a456-426614174000
-    return `${window.location.origin}/receipt/${appointmentId}`;
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    return `${origin}/receipt/${appointmentId}`;
   }
 
   return (
