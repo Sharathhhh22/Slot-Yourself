@@ -75,7 +75,7 @@ export function Navbar() {
         <div className="absolute left-0 z-50 w-64 mt-2 ml-4 rounded-md border border-slate-200 bg-white shadow-lg">
           <div className="flex flex-col p-2 space-y-1">
             <Link 
-              href="/" 
+              href="/dashboard" 
               className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               onClick={() => setIsOpen(false)}
             >

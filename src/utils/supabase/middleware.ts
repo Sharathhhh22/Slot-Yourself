@@ -32,8 +32,8 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Protect routes here. If unauthenticated and trying to access protected route, redirect to login
-  const protectedRoutes = ['/appointments', '/patients', '/settings'] // root (/) can be public or protected, but let's say root dashboard is protected
-  const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route)) || request.nextUrl.pathname === '/'
+  const protectedRoutes = ['/appointments', '/patients', '/settings', '/dashboard']
+  const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
 
   if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone()

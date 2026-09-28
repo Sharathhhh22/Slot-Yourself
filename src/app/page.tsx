@@ -1,148 +1,76 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Calendar, Clock, Activity, AlertCircle } from "lucide-react"
-import { createClient } from "@/utils/supabase/server"
-import { redirect } from "next/navigation"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, Calendar, Shield, Activity } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-export const revalidate = 0
-
-export default async function Dashboard() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  // Get user profile to check role
-  const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).single()
-  const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
-
-  // Fetch appointments. 
-  // If patient: fetch only their appointments.
-  // If admin/staff: fetch all appointments.
-  // We use Supabase relational queries to get nested data.
-  let query = supabase
-    .from('appointments_v2')
-    .select(`
-      id, appointment_date, appointment_time, status,
-      doctors(name),
-      clinics(name),
-      profiles(full_name)
-    `)
-    .order('appointment_date', { ascending: true })
-
-  // RLS handles the filtering automatically! We don't even need to add .eq('patient_id') because the DB enforces it.
-  
-  const { data: appointments } = await query
-
-  // Stats calculation
-  const totalAppointments = appointments?.length || 0
-  const upcomingAppointments = appointments?.filter(a => a.status === 'upcoming') || []
-  
-  // Calculate unique patients (only relevant for staff, but we can do it safely here)
-  const uniquePatients = new Set(appointments?.map(a => (a.profiles as any)?.full_name)).size
-
-  // We fetch doctors count for stats
-  const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true }).eq('is_active', true)
-
+export default function LandingPage() {
   return (
-    <div className="container mx-auto p-6 md:p-8">
-      <div className="flex items-center justify-between space-y-2">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-            Welcome, {profile?.full_name || 'User'}
-          </h2>
-          <p className="text-slate-500">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
-        </div>
-      </div>
-      
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {isAdminOrStaff && (
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Unique Patients</CardTitle>
-              <Users className="h-4 w-4 text-slate-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-slate-900">{uniquePatients}</div>
-              <p className="text-xs text-slate-500">Registered in system</p>
-            </CardContent>
-          </Card>
-        )}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">{isAdminOrStaff ? 'Total Appointments' : 'My Appointments'}</CardTitle>
-            <Calendar className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{totalAppointments}</div>
-            <p className="text-xs text-slate-500">All time bookings</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Available Doctors</CardTitle>
-            <Activity className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{doctorsCount || 0}</div>
-            <p className="text-xs text-slate-500">Active specialists</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Upcoming Visits</CardTitle>
-            <Clock className="h-4 w-4 text-slate-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{upcomingAppointments.length}</div>
-            <p className="text-xs text-slate-500">Scheduled appointments</p>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="min-h-screen bg-slate-50">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-white pt-24 pb-32 border-b border-slate-200">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+              Modern Clinic Management, <span className="text-primary-600">Simplified.</span>
+            </h1>
+            <p className="text-xl text-slate-600 mb-10 max-w-2xl">
+              SlotUrSelf provides an enterprise-grade appointment platform and clinical dashboard designed to eliminate friction for both patients and staff.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button asChild size="lg" className="text-base h-14 px-8">
+                <Link href="/login">Get Started</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="text-base h-14 px-8 bg-white">
+                <Link href="/showcase">View UX Showcase</Link>
+              </Button>
+            </div>
+          </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-7">
-          <CardHeader>
-            <CardTitle>Upcoming Appointments</CardTitle>
-            <CardDescription>
-              {isAdminOrStaff ? "The most recent bookings across all clinics." : "Your upcoming scheduled visits."}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {upcomingAppointments.length === 0 ? (
-              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50">
-                <div className="text-center">
-                  <Calendar className="mx-auto h-8 w-8 text-slate-400" />
-                  <h3 className="mt-2 text-sm font-semibold text-slate-900">No upcoming appointments</h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    You have no scheduled visits at this time.
-                  </p>
-                </div>
+          {/* Hero Image - The 4th image (Dashboard) */}
+          <div className="relative mx-auto max-w-5xl rounded-xl border border-slate-200 bg-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden group">
+            <div className="aspect-[16/9] w-full relative">
+              <Image
+                src="/images/showcase/dashboard.jpg"
+                alt="SlotUrSelf Clinical Dashboard"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-12 w-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-2">
+                <Calendar className="h-6 w-6" />
               </div>
-            ) : (
-              <div className="space-y-4">
-                {upcomingAppointments.slice(0, 5).map((apt: any) => (
-                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 last:border-0 gap-4">
-                    <div>
-                      {isAdminOrStaff && <p className="font-semibold text-primary-700">{apt.profiles?.full_name}</p>}
-                      <p className="font-medium text-slate-900">Dr. {apt.doctors?.name}</p>
-                      <p className="text-sm text-slate-500">{apt.clinics?.name}</p>
-                    </div>
-                    <div className="sm:text-right">
-                      <p className="font-medium text-slate-900">{apt.appointment_date}</p>
-                      <p className="text-sm text-slate-500">{apt.appointment_time}</p>
-                      <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mt-1">
-                        Upcoming
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              <h3 className="text-xl font-bold text-slate-900">Smart Scheduling</h3>
+              <p className="text-slate-600">Prevent double-bookings instantly with real-time slot validation and relational database constraints.</p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-12 w-12 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mb-2">
+                <Shield className="h-6 w-6" />
               </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              <h3 className="text-xl font-bold text-slate-900">Secure & Protected</h3>
+              <p className="text-slate-600">Enterprise-grade Row Level Security ensures patients only see their own records, while staff see it all.</p>
+            </div>
+            
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-12 w-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mb-2">
+                <Activity className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">Clinical Analytics</h3>
+              <p className="text-slate-600">Gain insights into your facility's operational health with built-in data dashboards and metrics.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
