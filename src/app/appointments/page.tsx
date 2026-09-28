@@ -9,7 +9,7 @@ import { redirect } from "next/navigation"
 export const revalidate = 0 // Always fetch latest data
 
 export default async function AppointmentsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
