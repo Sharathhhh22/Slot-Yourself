@@ -23,6 +23,11 @@ export default function RootLayout({
         <div className="relative flex min-h-screen flex-col">
           <Navbar />
           <main className="flex-1">{children}</main>
+          <footer className="border-t border-slate-200 bg-white py-6 text-center">
+            <p className="text-sm text-slate-500">
+              developed by <span className="font-semibold text-primary-600">TechSqad</span>
+            </p>
+          </footer>
         </div>
       </body>
     </html>
