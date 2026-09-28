@@ -6,7 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Slot Yourself - Clinic Management",
+  title: "SlotUrSelf - Clinic Management",
   description: "Professional clinic and hospital appointment management platform.",
 };
 

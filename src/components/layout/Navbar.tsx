@@ -27,7 +27,7 @@ export function Navbar() {
 
           <Building2 className="h-6 w-6 text-primary-600" />
           <span className="font-semibold tracking-tight text-slate-900">
-            Slot Yourself
+            SlotUrSelf
           </span>
         </div>
 

@@ -116,7 +116,7 @@ export default function BookAppointment() {
   return (
     <div className="container mx-auto max-w-2xl p-6 md:p-8">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900">Slot Yourself</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900">SlotUrSelf</h2>
         <p className="mt-2 text-slate-500">
           Follow the steps below to schedule a visit with one of our specialists.
         </p>
@@ -144,6 +144,17 @@ export default function BookAppointment() {
               <p className="mt-4 text-xs text-slate-500">
                 Please show this QR code at the reception when you arrive.
               </p>
+              
+              {/* Clickable link so they can test it on desktop */}
+              <div className="mt-4 border-t border-slate-100 pt-4 w-full">
+                <Link 
+                  href={`/receipt/${appointmentId}`}
+                  className="text-sm font-medium text-primary-600 hover:text-primary-700 hover:underline flex items-center justify-center"
+                  target="_blank"
+                >
+                  View Digital Pass in Browser
+                </Link>
+              </div>
             </div>
 
             <div className="mt-8 flex space-x-4">
