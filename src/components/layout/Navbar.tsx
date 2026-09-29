@@ -106,6 +106,15 @@ export function Navbar() {
               <Settings className="mr-3 h-4 w-4" />
               Settings
             </Link>
+            <div className="border-t border-slate-100 my-1"></div>
+            <Link 
+              href="/admin" 
+              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50"
+              onClick={() => setIsOpen(false)}
+            >
+              <Settings className="mr-3 h-4 w-4" />
+              Admin Panel
+            </Link>
             
             <div className="border-t border-slate-100 my-2 pt-2 md:hidden flex flex-col space-y-2">
               <Button asChild className="w-full justify-start">
