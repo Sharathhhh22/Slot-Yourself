@@ -19,19 +19,13 @@ export default function ReceiptPage() {
       try {
         if (!params.id) return
         
-        const { data, error } = await supabase
-          .from('appointments_v2')
-          .select(`
-            *,
-            clinics (name),
-            departments (name),
-            doctors (name),
-            profiles (full_name, mobile, email, address)
-          `)
-          .eq('id', params.id as string)
-          .single()
+        // Use the secure RPC function to fetch the receipt without needing to be logged in
+        const { data, error } = await supabase.rpc('get_receipt', { 
+          receipt_id: params.id 
+        })
 
         if (error) throw error
+        if (!data) throw new Error("Not found")
         
         setAppointment(data)
       } catch (err: any) {
@@ -85,15 +79,15 @@ export default function ReceiptPage() {
                 <Building2 className="h-5 w-5 text-slate-400 mt-0.5" />
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Clinic</p>
-                  <p className="font-medium text-slate-900">{appointment.clinics?.name || 'N/A'}</p>
+                  <p className="font-medium text-slate-900">{appointment.clinic_name || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Activity className="h-5 w-5 text-slate-400 mt-0.5" />
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Department & Doctor</p>
-                  <p className="font-medium text-slate-900">{appointment.departments?.name || 'N/A'}</p>
-                  <p className="text-sm text-slate-600">Dr. {appointment.doctors?.name || 'N/A'}</p>
+                  <p className="font-medium text-slate-900">{appointment.department_name || 'N/A'}</p>
+                  <p className="text-sm text-slate-600">Dr. {appointment.doctor_name || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -112,24 +106,24 @@ export default function ReceiptPage() {
             <div className="grid grid-cols-1 gap-y-3">
               <div className="flex items-center gap-3">
                 <User className="h-5 w-5 text-slate-400" />
-                <p className="font-medium text-slate-900">{appointment.profiles?.full_name || 'N/A'}</p>
+                <p className="font-medium text-slate-900">{appointment.patient_name || 'N/A'}</p>
               </div>
-              {appointment.profiles?.mobile && (
+              {appointment.patient_mobile && (
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-slate-400" />
-                  <p className="text-slate-600">{appointment.profiles.mobile}</p>
+                  <p className="text-slate-600">{appointment.patient_mobile}</p>
                 </div>
               )}
-              {appointment.profiles?.email && (
+              {appointment.patient_email && (
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-slate-400" />
-                  <p className="text-slate-600">{appointment.profiles.email}</p>
+                  <p className="text-slate-600">{appointment.patient_email}</p>
                 </div>
               )}
-              {appointment.profiles?.address && (
+              {appointment.patient_address && (
                 <div className="flex items-start gap-3 mt-1">
                   <MapPin className="h-5 w-5 text-slate-400 mt-0.5" />
-                  <p className="text-slate-600 text-sm">{appointment.profiles.address}</p>
+                  <p className="text-slate-600 text-sm">{appointment.patient_address}</p>
                 </div>
               )}
             </div>
