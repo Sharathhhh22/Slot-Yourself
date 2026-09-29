@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activity } from "lucide-react"
 
@@ -11,6 +11,8 @@ export default function ReceiptPage() {
   const [appointment, setAppointment] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  const supabase = createClient()
 
   useEffect(() => {
     async function fetchAppointment() {
@@ -18,8 +20,14 @@ export default function ReceiptPage() {
         if (!params.id) return
         
         const { data, error } = await supabase
-          .from('appointments')
-          .select('*')
+          .from('appointments_v2')
+          .select(`
+            *,
+            clinics (name),
+            departments (name),
+            doctors (name),
+            profiles (full_name, mobile, email, address)
+          `)
           .eq('id', params.id as string)
           .single()
 
@@ -77,15 +85,15 @@ export default function ReceiptPage() {
                 <Building2 className="h-5 w-5 text-slate-400 mt-0.5" />
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Clinic</p>
-                  <p className="font-medium text-slate-900">{appointment.clinic}</p>
+                  <p className="font-medium text-slate-900">{appointment.clinics?.name || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Activity className="h-5 w-5 text-slate-400 mt-0.5" />
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Department & Doctor</p>
-                  <p className="font-medium text-slate-900">{appointment.department}</p>
-                  <p className="text-sm text-slate-600">{appointment.doctor}</p>
+                  <p className="font-medium text-slate-900">{appointment.departments?.name || 'N/A'}</p>
+                  <p className="text-sm text-slate-600">Dr. {appointment.doctors?.name || 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -104,20 +112,26 @@ export default function ReceiptPage() {
             <div className="grid grid-cols-1 gap-y-3">
               <div className="flex items-center gap-3">
                 <User className="h-5 w-5 text-slate-400" />
-                <p className="font-medium text-slate-900">{appointment.patient_name}</p>
+                <p className="font-medium text-slate-900">{appointment.profiles?.full_name || 'N/A'}</p>
               </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-slate-400" />
-                <p className="text-slate-600">{appointment.mobile}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-slate-400" />
-                <p className="text-slate-600">{appointment.email}</p>
-              </div>
-              <div className="flex items-start gap-3 mt-1">
-                <MapPin className="h-5 w-5 text-slate-400 mt-0.5" />
-                <p className="text-slate-600 text-sm">{appointment.address}</p>
-              </div>
+              {appointment.profiles?.mobile && (
+                <div className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 text-slate-400" />
+                  <p className="text-slate-600">{appointment.profiles.mobile}</p>
+                </div>
+              )}
+              {appointment.profiles?.email && (
+                <div className="flex items-center gap-3">
+                  <Mail className="h-5 w-5 text-slate-400" />
+                  <p className="text-slate-600">{appointment.profiles.email}</p>
+                </div>
+              )}
+              {appointment.profiles?.address && (
+                <div className="flex items-start gap-3 mt-1">
+                  <MapPin className="h-5 w-5 text-slate-400 mt-0.5" />
+                  <p className="text-slate-600 text-sm">{appointment.profiles.address}</p>
+                </div>
+              )}
             </div>
           </div>
           
