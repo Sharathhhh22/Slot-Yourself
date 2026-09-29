@@ -5,11 +5,14 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { message: string }
+  searchParams: Promise<{ message?: string }>
 }) {
+  const resolvedSearchParams = await searchParams;
+  const message = resolvedSearchParams?.message;
+
   return (
     <div className="container mx-auto flex h-screen max-w-md flex-col items-center justify-center p-6">
       <div className="mb-8 text-center">
@@ -38,8 +41,8 @@ export default function LoginPage({
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" name="password" type="password" required />
                 </div>
-                {searchParams?.message && (
-                  <p className="text-sm text-red-600 bg-red-50 p-2 rounded-md">{searchParams.message}</p>
+                {message && (
+                  <p className="text-sm text-red-600 bg-red-50 p-2 rounded-md">{message}</p>
                 )}
               </CardContent>
               <CardFooter>
@@ -68,8 +71,8 @@ export default function LoginPage({
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" name="password" type="password" required />
                 </div>
-                {searchParams?.message && (
-                  <p className="text-sm text-red-600 bg-red-50 p-2 rounded-md">{searchParams.message}</p>
+                {message && (
+                  <p className="text-sm text-red-600 bg-red-50 p-2 rounded-md">{message}</p>
                 )}
               </CardContent>
               <CardFooter>
