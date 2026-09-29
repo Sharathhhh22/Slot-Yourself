@@ -5,6 +5,7 @@ import { Calendar, Plus } from "lucide-react"
 import Link from "next/link"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
+import CancelButton from "./CancelButton"
 
 export const revalidate = 0 // Always fetch latest data
 
@@ -71,7 +72,7 @@ export default async function AppointmentsPage() {
                   {isAdminOrStaff && <TableHead>Patient</TableHead>}
                   <TableHead>Doctor</TableHead>
                   <TableHead>Clinic</TableHead>
-                  <TableHead className="text-right">Status</TableHead>
+                  <TableHead className="text-right">Status & Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -103,9 +104,12 @@ export default async function AppointmentsPage() {
                       </TableCell>
                       <TableCell>{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
-                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-                          Upcoming
-                        </span>
+                        <div className="flex items-center justify-end">
+                          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                            Upcoming
+                          </span>
+                          <CancelButton appointmentId={apt.id} />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))
