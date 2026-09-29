@@ -31,15 +31,7 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect routes here. If unauthenticated and trying to access protected route, redirect to login
-  const protectedRoutes = ['/appointments', '/patients', '/settings', '/dashboard']
-  const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
-
-  if (!user && isProtectedRoute) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
-  }
-
+  // We rely on Server Components and Client Components to protect themselves
+  // because Next.js 15 Edge Middleware can sometimes drop cookies on RSC navigations.
   return supabaseResponse
 }
