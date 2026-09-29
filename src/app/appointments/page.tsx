@@ -17,7 +17,7 @@ export default async function AppointmentsPage() {
   }
 
   // Get user profile to check role
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   const { data: appointments } = await supabase

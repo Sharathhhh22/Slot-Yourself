@@ -13,8 +13,8 @@ export default async function Dashboard() {
     redirect('/login')
   }
 
-  // Get user profile to check role
-  const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).single()
+  // Get user profile to check role (using maybeSingle to prevent crashes if trigger failed)
+  const { data: profile } = await supabase.from('profiles').select('role, full_name').eq('id', user.id).maybeSingle()
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   // Fetch appointments. 
