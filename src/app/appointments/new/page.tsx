@@ -10,12 +10,16 @@ import { Calendar, CheckCircle2, MapPin, Navigation, User } from "lucide-react"
 import Link from "next/link"
 import { QRCodeSVG } from "qrcode.react"
 import { createClient } from "@/utils/supabase/client"
+import { triageSymptoms } from "@/app/actions/triage"
 
 export default function BookAppointment() {
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [locationStatus, setLocationStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [symptoms, setSymptoms] = useState("")
+  const [isTriaging, setIsTriaging] = useState(false)
+  const [triageReason, setTriageReason] = useState("")
   
   const [clinics, setClinics] = useState<any[]>([])
   const [departments, setDepartments] = useState<any[]>([])
@@ -101,6 +105,32 @@ export default function BookAppointment() {
       department_id: "", department_name: "", doctor_id: "", doctor_name: "" 
     })
     setStep(2)
+  }
+
+  const handleAITriage = async () => {
+    if (!symptoms.trim()) return
+    setIsTriaging(true)
+    setTriageReason("")
+    
+    try {
+      const result = await triageSymptoms(symptoms, departments)
+      const dept = departments.find(d => d.id === result.departmentId)
+      
+      if (dept) {
+        setFormData({ 
+          ...formData, 
+          department_id: dept.id, 
+          department_name: dept.name, 
+          doctor_id: "", 
+          doctor_name: "" 
+        })
+        setTriageReason(result.reason)
+      }
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsTriaging(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -310,7 +340,39 @@ export default function BookAppointment() {
               )}
 
               {step === 2 && (
-                <div className="space-y-4">
+                <div className="space-y-6">
+                  {/* AI Triage Feature */}
+                  <div className="rounded-lg border border-primary-200 bg-primary-50/50 p-4 shadow-sm">
+                    <Label htmlFor="symptoms" className="text-primary-900 font-semibold mb-2 flex items-center">
+                      <span className="bg-primary-600 text-white rounded px-2 py-0.5 text-xs mr-2">AI</span>
+                      Not sure who to see? Describe your symptoms
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input 
+                        id="symptoms" 
+                        value={symptoms} 
+                        onChange={e => setSymptoms(e.target.value)} 
+                        placeholder="e.g. Sharp pain in chest when coughing..."
+                        className="bg-white"
+                      />
+                      <Button 
+                        type="button" 
+                        onClick={handleAITriage} 
+                        disabled={isTriaging || !symptoms.trim()}
+                        className="bg-primary-600 hover:bg-primary-700"
+                      >
+                        {isTriaging ? "Thinking..." : "Ask AI"}
+                      </Button>
+                    </div>
+                    {triageReason && (
+                      <p className="mt-3 text-sm text-primary-700 bg-white p-3 rounded-md border border-primary-100 italic">
+                        "{triageReason}"
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="border-t border-slate-200"></div>
+
                   <div className="space-y-2">
                     <Label htmlFor="department">Department</Label>
                     <Select 
@@ -319,6 +381,7 @@ export default function BookAppointment() {
                       onChange={(e) => {
                         const dept = departments.find(d => d.id === e.target.value)
                         setFormData({ ...formData, department_id: dept?.id || "", department_name: dept?.name || "", doctor_id: "", doctor_name: "" })
+                        setTriageReason("") // clear AI reason if they manually change
                       }} 
                       required
                     >
