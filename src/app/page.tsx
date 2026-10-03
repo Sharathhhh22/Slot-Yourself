@@ -103,14 +103,14 @@ export default function LandingPage() {
 
             <motion.div 
               initial="hidden" animate="visible" variants={fadeUp} transition={{ delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto"
+              className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full"
             >
-              <Button asChild size="lg" className="h-14 px-8 rounded-full bg-white text-black hover:bg-gray-100 hover:scale-105 transition-all duration-300 font-semibold text-base shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+              <Button asChild size="lg" className="h-14 px-8 rounded-full bg-white text-black hover:bg-gray-100 hover:scale-105 transition-all duration-300 font-semibold text-base shadow-[0_0_30px_rgba(255,255,255,0.15)] flex items-center justify-center">
                 <Link href="/appointments/new">
                   Book Appointment <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="h-14 px-8 rounded-full border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 text-white transition-all duration-300 font-medium text-base">
+              <Button asChild variant="outline" size="lg" className="h-14 px-8 rounded-full border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 text-white transition-all duration-300 font-medium text-base flex items-center justify-center">
                 <Link href="/login">Access Portal</Link>
               </Button>
             </motion.div>
@@ -263,7 +263,7 @@ export default function LandingPage() {
             <div className="absolute inset-0 bg-gradient-to-b from-[#3b82f6]/10 to-transparent"></div>
             <h2 className="relative z-10 text-4xl md:text-6xl font-bold mb-6 tracking-tight">The Future of Health is Here.</h2>
             <p className="relative z-10 text-xl text-gray-400 mb-10 font-light">Join the revolution. Fast, secure, and intelligent care.</p>
-            <Button asChild size="lg" className="relative z-10 h-14 px-10 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-semibold shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+            <Button asChild size="lg" className="relative z-10 h-14 px-10 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-semibold shadow-[0_0_30px_rgba(255,255,255,0.2)] inline-flex items-center justify-center">
               <Link href="/appointments/new">
                 Start Your Journey <ChevronRight className="ml-2 h-5 w-5" />
               </Link>
