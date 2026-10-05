@@ -1,16 +1,16 @@
 'use client'
 
 import Link from "next/link"
-import { Building2, Calendar, LayoutDashboard, Settings, Users, Menu, LogOut, LogIn } from "lucide-react"
-import { Button } from "../ui/button"
+import { Menu, X } from "lucide-react"
 import { useState, useEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const router = useRouter()
+  const pathname = usePathname()
   
   const supabase = createClient()
 
@@ -27,114 +27,92 @@ export function Navbar() {
   }, [])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/login');
-    router.refresh();
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
   }
 
+  // Close mobile menu when path changes
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
   return (
-    <nav className="border-b border-slate-200 bg-white">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
-        <div className="flex items-center space-x-2">
-          {/* Hamburger Menu Icon (Mobile & Desktop) */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="rounded-md p-2 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-600"
-          >
-            <Menu className="h-6 w-6 text-slate-600" />
-          </button>
-          
-          <Building2 className="h-6 w-6 text-primary-600 ml-2" />
-          <span className="font-semibold tracking-tight text-slate-900">
-            SlotUrSelf
-          </span>
+    <nav className="border-b border-[#E5E5E2] bg-[#F7F7F5]/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="max-w-[1400px] mx-auto flex h-16 items-center justify-between px-6 md:px-16">
+        
+        {/* LOGO */}
+        <Link href="/" className="text-[17px] font-bold tracking-tight text-[#111111]">
+          SLOTURSELF
+        </Link>
+
+        {/* DESKTOP NAVIGATION */}
+        <div className="hidden md:flex items-center space-x-8">
+          <Link href="/dashboard" className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+            Dashboard
+          </Link>
+          <Link href="/appointments" className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+            Appointments
+          </Link>
+          <Link href="/patients" className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+            Patients
+          </Link>
+          <Link href="/admin" className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+            Admin
+          </Link>
         </div>
 
-        <div className="flex items-center space-x-4">
+        {/* DESKTOP ACTIONS */}
+        <div className="hidden md:flex items-center space-x-6">
           {user ? (
-            <Button variant="ghost" className="text-sm font-medium text-slate-600 hidden md:flex" onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
+            <button onClick={handleLogout} className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
               Sign Out
-            </Button>
+            </button>
           ) : (
-            <Button asChild variant="outline" className="text-sm font-medium hidden md:flex">
-              <Link href="/login">
-                <LogIn className="mr-2 h-4 w-4" />
-                Sign In
-              </Link>
-            </Button>
+            <Link href="/login" className="text-[13px] font-medium text-[#6B6B6B] hover:text-[#111111] transition-colors">
+              Sign In
+            </Link>
           )}
-          <Button asChild className="hidden md:flex">
-            <Link href="/appointments/new">Book Appointment</Link>
-          </Button>
+          
+          <Link 
+            href="/appointments/new" 
+            className="inline-flex items-center justify-center bg-[#111111] text-white px-5 py-2 rounded-full text-[13px] font-medium transition-all hover:bg-[#242424] hover:scale-[1.02]"
+          >
+            Book Appointment
+          </Link>
         </div>
+
+        {/* MOBILE MENU BUTTON */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden p-2 -mr-2 text-[#111111]"
+        >
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
 
-      {/* Dropdown Menu */}
+      {/* MOBILE DROPDOWN */}
       {isOpen && (
-        <div className="absolute left-0 z-50 w-64 mt-2 ml-4 rounded-md border border-slate-200 bg-white shadow-lg">
-          <div className="flex flex-col p-2 space-y-1">
-            <Link 
-              href="/dashboard" 
-              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              onClick={() => setIsOpen(false)}
-            >
-              <LayoutDashboard className="mr-3 h-4 w-4" />
-              Dashboard
-            </Link>
-            <Link 
-              href="/appointments" 
-              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              onClick={() => setIsOpen(false)}
-            >
-              <Calendar className="mr-3 h-4 w-4" />
-              Appointments
-            </Link>
-            <Link 
-              href="/patients" 
-              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              onClick={() => setIsOpen(false)}
-            >
-              <Users className="mr-3 h-4 w-4" />
-              Patients
-            </Link>
-            <Link 
-              href="/settings" 
-              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              onClick={() => setIsOpen(false)}
-            >
-              <Settings className="mr-3 h-4 w-4" />
-              Settings
-            </Link>
-            <div className="border-t border-slate-100 my-1"></div>
-            <Link 
-              href="/admin" 
-              className="flex items-center rounded-md px-3 py-2 text-sm font-medium text-primary-600 hover:bg-primary-50"
-              onClick={() => setIsOpen(false)}
-            >
-              <Settings className="mr-3 h-4 w-4" />
-              Admin Panel
-            </Link>
-            
-            <div className="border-t border-slate-100 my-2 pt-2 md:hidden flex flex-col space-y-2">
-              <Button asChild className="w-full justify-start">
-                <Link href="/appointments/new" onClick={() => setIsOpen(false)}>Book Appointment</Link>
-              </Button>
-              {user ? (
-                <Button variant="ghost" className="w-full justify-start text-slate-600" onClick={() => { setIsOpen(false); handleLogout(); }}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
-                </Button>
-              ) : (
-                <Button variant="outline" className="w-full justify-start" asChild onClick={() => setIsOpen(false)}>
-                  <Link href="/login">
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Sign In
-                  </Link>
-                </Button>
-              )}
-            </div>
-          </div>
+        <div className="md:hidden border-t border-[#E5E5E2] bg-white absolute w-full px-6 py-6 shadow-xl flex flex-col space-y-4">
+          <Link href="/dashboard" className="text-[15px] font-medium text-[#111111]">Dashboard</Link>
+          <Link href="/appointments" className="text-[15px] font-medium text-[#111111]">Appointments</Link>
+          <Link href="/patients" className="text-[15px] font-medium text-[#111111]">Patients</Link>
+          <Link href="/admin" className="text-[15px] font-medium text-[#111111]">Admin Panel</Link>
+          
+          <div className="w-full h-[1px] bg-[#E5E5E2] my-2"></div>
+          
+          {user ? (
+            <button onClick={handleLogout} className="text-[15px] font-medium text-[#6B6B6B] text-left">Sign Out</button>
+          ) : (
+            <Link href="/login" className="text-[15px] font-medium text-[#111111]">Sign In</Link>
+          )}
+          
+          <Link 
+            href="/appointments/new" 
+            className="inline-flex items-center justify-center bg-[#111111] text-white px-6 py-3 rounded-full text-[14px] font-medium mt-4 w-full"
+          >
+            Book Appointment
+          </Link>
         </div>
       )}
     </nav>
