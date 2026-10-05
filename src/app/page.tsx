@@ -23,70 +23,43 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 px-6 border-b border-slate-200 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-50 pointer-events-none"></div>
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial="hidden" animate="visible" variants={stagger} className="flex flex-col items-start text-left">
-              
-              <motion.div variants={fadeUp} className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 mb-6 uppercase tracking-wider">
-                <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
-                Accepting New Patients
-              </motion.div>
-
-              <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
-                Modern clinical care, <br className="hidden md:block"/>
-                <span className="text-blue-600">without the waiting room.</span>
-              </motion.h1>
-
-              <motion.p variants={fadeUp} className="text-lg text-slate-600 mb-8 max-w-xl leading-relaxed">
-                Book appointments directly with verified specialists. Manage your medical records, prescriptions, and follow-ups through a secure patient portal.
-              </motion.p>
-
-              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Button asChild size="lg" className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm transition-all hover:scale-[1.02]">
-                  <Link href="/appointments/new">
-                    Book an Appointment <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="h-12 px-8 border-slate-300 text-slate-700 hover:bg-slate-50 font-medium shadow-sm bg-white transition-all hover:scale-[1.02]">
-                  <Link href="/login">Patient Portal Login</Link>
-                </Button>
-              </motion.div>
-              
-              <motion.div variants={fadeUp} className="mt-10 flex items-center gap-4 text-sm text-slate-500">
-                <div className="flex -space-x-2">
-                  <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc1" alt="Doctor" /></div>
-                  <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc2" alt="Doctor" /></div>
-                  <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc3" alt="Doctor" /></div>
-                </div>
-                <p>Over 50+ specialists available today.</p>
-              </motion.div>
+        <div className="container mx-auto max-w-4xl relative z-10 text-center">
+          <motion.div initial="hidden" animate="visible" variants={stagger} className="flex flex-col items-center">
+            
+            <motion.div variants={fadeUp} className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 mb-6 uppercase tracking-wider">
+              <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
+              Accepting New Patients
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="relative mx-auto w-full max-w-lg lg:max-w-none">
-              <div className="relative rounded-2xl border border-slate-200 bg-white shadow-xl p-2 md:p-3 hover:-translate-y-1 transition-transform duration-500">
-                <div className="aspect-[4/3] w-full relative rounded-xl overflow-hidden bg-slate-100 border border-slate-100">
-                  <Image
-                    src="/images/showcase/dashboard.jpg"
-                    alt="Clinical Dashboard Interface"
-                    fill
-                    className="object-cover object-top"
-                    priority
-                  />
-                  
-                  {/* Clean UI Overlay */}
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="absolute bottom-6 right-6 bg-white border border-slate-200 rounded-xl shadow-lg p-4 flex items-center gap-4 hidden sm:flex">
-                    <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                      <CheckCircle2 className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">Appointment Confirmed</p>
-                      <p className="text-xs text-slate-500">Dr. Sarah Jenkins • 10:30 AM</p>
-                    </div>
-                  </motion.div>
-                </div>
+            <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+              Modern clinical care, <br className="hidden md:block"/>
+              <span className="text-blue-600">without the waiting room.</span>
+            </motion.h1>
+
+            <motion.p variants={fadeUp} className="text-lg text-slate-600 mb-10 max-w-2xl leading-relaxed">
+              Book appointments directly with verified specialists. Manage your medical records, prescriptions, and follow-ups through a secure patient portal.
+            </motion.p>
+
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+              <Button asChild size="lg" className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm transition-all hover:scale-[1.02]">
+                <Link href="/appointments/new">
+                  Book an Appointment <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="h-12 px-8 border-slate-300 text-slate-700 hover:bg-slate-50 font-medium shadow-sm bg-white transition-all hover:scale-[1.02]">
+                <Link href="/login">Patient Portal Login</Link>
+              </Button>
+            </motion.div>
+            
+            <motion.div variants={fadeUp} className="mt-12 flex items-center justify-center gap-4 text-sm text-slate-500">
+              <div className="flex -space-x-2">
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc1" alt="Doctor" /></div>
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc2" alt="Doctor" /></div>
+                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden"><img src="https://api.dicebear.com/7.x/notionists/svg?seed=Doc3" alt="Doctor" /></div>
               </div>
+              <p>Over 50+ specialists available today.</p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
