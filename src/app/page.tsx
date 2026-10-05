@@ -24,7 +24,7 @@ export default function EditorialLandingPage() {
     return () => clearInterval(timer)
   }, [])
 
-  const ease = [0.22, 1, 0.36, 1]
+  const ease = [0.22, 1, 0.36, 1] as const
 
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
