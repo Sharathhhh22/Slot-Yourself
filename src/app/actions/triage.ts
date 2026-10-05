@@ -40,7 +40,7 @@ export async function triageSymptoms(
       }
     });
 
-    const text = response.text();
+    const text = response.text;
     if (!text) throw new Error("Empty response from AI");
 
     const result = JSON.parse(text);
