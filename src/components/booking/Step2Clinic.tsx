@@ -134,7 +134,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Button type="submit" disabled={isLoading} variant="secondary">
+              <Button type="submit" disabled={isLoading} variant="outline">
                 <Search className="w-4 h-4 mr-2" /> Search
               </Button>
             </form>

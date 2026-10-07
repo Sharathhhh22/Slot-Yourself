@@ -66,13 +66,11 @@ export function BookingWizard() {
     }),
     animate: {
       x: 0,
-      opacity: 1,
-      transition: { duration: 0.4, ease: "easeInOut" }
+      opacity: 1
     },
     exit: (dir: number) => ({
       x: dir > 0 ? -50 : 50,
-      opacity: 0,
-      transition: { duration: 0.3, ease: "easeInOut" }
+      opacity: 0
     })
   }
 
