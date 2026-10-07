@@ -72,7 +72,7 @@ export default function ReceiptPage() {
           
           {appointment.ticket_number && (
             <div className="mx-auto mt-2 max-w-[200px] bg-slate-900 text-white rounded-lg py-2 text-xl font-mono font-bold tracking-widest shadow-md">
-              TICKET-{appointment.ticket_number.toString().padStart(4, '0')}
+              TICKET - {appointment.ticket_number.toString().padStart(3, '0')}
             </div>
           )}
         </CardHeader>

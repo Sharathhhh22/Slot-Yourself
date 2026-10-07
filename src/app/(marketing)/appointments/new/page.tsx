@@ -294,7 +294,7 @@ export default function BookAppointment() {
               
               {ticketNumber && (
                 <div className="mb-6 px-4 py-2 bg-slate-900 text-white rounded-lg text-lg font-mono font-bold tracking-widest shadow-md">
-                  TICKET-{ticketNumber.toString().padStart(4, '0')}
+                  TICKET - {ticketNumber.toString().padStart(3, '0')}
                 </div>
               )}
 
