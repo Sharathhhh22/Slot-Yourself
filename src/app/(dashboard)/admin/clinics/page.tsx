@@ -34,11 +34,13 @@ export default async function AdminClinicsPage() {
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Manage Clinics</h2>
           <p className="text-slate-500">View and edit your healthcare facilities.</p>
         </div>
-        {/* We can build the Add Clinic form later, for now just a UI button */}
-        <Button>
+        <Link
+          href="/admin/clinics/new" 
+          className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 text-[14px] font-medium tracking-wide text-white hover:bg-slate-800 transition-colors shadow-sm"
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Clinic
-        </Button>
+        </Link>
       </div>
 
       <Card>

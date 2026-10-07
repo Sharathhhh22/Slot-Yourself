@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, Stethoscope, Activity, Settings } from "lucide-react"
+import { Building2, Stethoscope, Activity, Settings, Users } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
@@ -22,6 +22,7 @@ export default async function AdminDashboard() {
   const { count: clinicsCount } = await supabase.from('clinics').select('*', { count: 'exact', head: true })
   const { count: deptsCount } = await supabase.from('departments').select('*', { count: 'exact', head: true })
   const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true })
+  const { count: patientsCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).not('role', 'in', '("admin", "staff")')
 
   return (
     <div className="container mx-auto p-6 md:p-8">
@@ -63,7 +64,7 @@ export default async function AdminDashboard() {
 
         {/* Doctors Management */}
         <Link href="/admin/doctors" className="block group">
-          <Card className="transition-all hover:border-primary-500 hover:shadow-md">
+          <Card className="transition-all hover:border-primary-500 hover:shadow-md h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Doctors</CardTitle>
               <Stethoscope className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
@@ -71,6 +72,20 @@ export default async function AdminDashboard() {
             <CardContent>
               <div className="text-3xl font-bold text-slate-900 mb-1">{doctorsCount || 0}</div>
               <p className="text-sm text-slate-500">Practicing physicians</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        {/* Patients Management */}
+        <Link href="/admin/patients" className="block group">
+          <Card className="transition-all hover:border-primary-500 hover:shadow-md h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">Patients</CardTitle>
+              <Users className="h-5 w-5 text-slate-400 group-hover:text-primary-500 transition-colors" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-slate-900 mb-1">{patientsCount || 0}</div>
+              <p className="text-sm text-slate-500">Registered patients</p>
             </CardContent>
           </Card>
         </Link>

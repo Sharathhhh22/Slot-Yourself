@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { 
@@ -21,9 +21,23 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+
+  useEffect(() => {
+    async function checkRole() {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
+        if (data?.role === 'admin' || data?.role === 'staff') {
+          setIsAdmin(true)
+        }
+      }
+    }
+    checkRole()
+  }, [])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -33,7 +47,8 @@ export default function DashboardLayout({
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/appointments", label: "My Appointments", icon: CalendarCheck },
+    { href: "/appointments", label: "Appointments", icon: CalendarCheck },
+    ...(isAdmin ? [{ href: "/admin", label: "Admin Panel", icon: Settings }] : []),
     { href: "/profile", label: "Profile", icon: User },
     { href: "/settings", label: "Settings", icon: Settings },
   ]
