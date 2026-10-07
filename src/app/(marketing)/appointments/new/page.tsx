@@ -41,6 +41,7 @@ export default function BookAppointment() {
   })
 
   const [appointmentId, setAppointmentId] = useState<string>("")
+  const [ticketNumber, setTicketNumber] = useState<number | null>(null)
 
   // 1. Initial Load: Get User & Clinics (Simulated / Real)
   useEffect(() => {
@@ -189,6 +190,9 @@ export default function BookAppointment() {
         }
         if (data && data.length > 0) {
           setAppointmentId(data[0].id)
+          if (data[0].ticket_number) {
+            setTicketNumber(data[0].ticket_number)
+          }
           
           // Trigger the email asynchronously (don't block the UI)
           if (user.email) {
@@ -286,12 +290,19 @@ export default function BookAppointment() {
             </p>
             
             <div className="mt-10 flex flex-col items-center rounded-2xl bg-white p-8 shadow-sm border border-green-100 w-full max-w-sm">
-              <p className="mb-6 text-sm font-bold tracking-widest uppercase text-slate-500">Digital Pass</p>
+              <p className="mb-2 text-sm font-bold tracking-widest uppercase text-slate-500">Digital Pass</p>
+              
+              {ticketNumber && (
+                <div className="mb-6 px-4 py-2 bg-slate-900 text-white rounded-lg text-lg font-mono font-bold tracking-widest shadow-md">
+                  TKT-{ticketNumber.toString().padStart(4, '0')}
+                </div>
+              )}
+
               <div className="rounded-xl bg-white p-4 shadow-inner border border-slate-100">
                 {appointmentId && <QRCodeSVG value={getQRData()} size={160} level="M" />}
               </div>
               <p className="mt-6 text-sm text-slate-500">
-                Show this code at reception to check-in instantly.
+                Show this code or your Ticket Number at reception to check-in instantly.
               </p>
               
               <div className="mt-6 border-t border-slate-100 pt-6 w-full">

@@ -68,7 +68,13 @@ export default function ReceiptPage() {
             <CheckCircle2 className="h-8 w-8 text-green-600" />
           </div>
           <CardTitle className="text-2xl text-slate-900">Digital Pass</CardTitle>
-          <p className="text-slate-500 text-sm">Please present this pass at the reception desk.</p>
+          <p className="text-slate-500 text-sm mb-4">Please present this pass at the reception desk.</p>
+          
+          {appointment.ticket_number && (
+            <div className="mx-auto mt-2 max-w-[200px] bg-slate-900 text-white rounded-lg py-2 text-xl font-mono font-bold tracking-widest shadow-md">
+              TKT-{appointment.ticket_number.toString().padStart(4, '0')}
+            </div>
+          )}
         </CardHeader>
         <CardContent className="space-y-6 mt-4">
           
