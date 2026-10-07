@@ -142,6 +142,26 @@ export default function ReceiptPage() {
             </div>
           )}
 
+          <div className="rounded-lg border border-slate-200 p-4">
+            <h3 className="font-semibold text-slate-800 mb-3 border-b border-slate-200 pb-2">Payment Details</h3>
+            <div className="grid grid-cols-1 gap-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-slate-500">Status</span>
+                <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
+                  appointment.payment_mode === 'online' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                }`}>
+                  {appointment.payment_mode === 'online' ? 'PAID ONLINE' : 'PAY AT CLINIC'}
+                </span>
+              </div>
+              {appointment.payment_mode === 'online' && appointment.transaction_id && (
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-500">Transaction ID</span>
+                  <span className="text-sm font-mono text-slate-900">{appointment.transaction_id}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="pt-4 text-center">
             <p className="text-xs text-slate-400 font-mono">ID: {appointment.id}</p>
           </div>

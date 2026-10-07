@@ -24,7 +24,7 @@ export default async function Dashboard() {
   let query = supabase
     .from('appointments_v2')
     .select(`
-      id, appointment_date, appointment_time, status,
+      id, appointment_date, appointment_time, status, payment_mode, transaction_id,
       doctors(name),
       clinics(name),
       profiles(full_name)
@@ -140,9 +140,20 @@ export default async function Dashboard() {
                     <div className="sm:text-right">
                       <p className="font-medium text-slate-900">{apt.appointment_date}</p>
                       <p className="text-sm text-slate-500">{apt.appointment_time}</p>
-                      <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mt-1">
-                        Upcoming
-                      </span>
+                      <div className="flex gap-2 justify-end mt-1">
+                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                          Upcoming
+                        </span>
+                        {apt.payment_mode === 'online' ? (
+                          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                            Paid Online
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">
+                            Pay at Clinic
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}

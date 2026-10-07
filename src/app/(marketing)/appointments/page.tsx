@@ -24,7 +24,7 @@ export default async function AppointmentsPage() {
   const { data: appointments } = await supabase
     .from('appointments_v2')
     .select(`
-      id, appointment_date, appointment_time, status, reason,
+      id, appointment_date, appointment_time, status, reason, payment_mode,
       doctors(name),
       clinics(name),
       departments(name),
@@ -104,7 +104,16 @@ export default async function AppointmentsPage() {
                       </TableCell>
                       <TableCell>{apt.clinics?.name}</TableCell>
                       <TableCell className="text-right">
-                        <div className="flex items-center justify-end">
+                        <div className="flex items-center justify-end gap-2">
+                          {apt.payment_mode === 'online' ? (
+                            <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                              Paid
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">
+                              Unpaid
+                            </span>
+                          )}
                           <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                             Upcoming
                           </span>

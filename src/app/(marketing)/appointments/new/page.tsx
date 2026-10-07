@@ -37,7 +37,9 @@ export default function BookAppointment() {
     time: "",
     patient_name: "",
     patient_phone: "",
-    reason: ""
+    reason: "",
+    payment_mode: "offline",
+    transaction_id: ""
   })
 
   const [appointmentId, setAppointmentId] = useState<string>("")
@@ -147,6 +149,11 @@ export default function BookAppointment() {
         setFormError("Please enter the patient's full name.")
         return false
       }
+    } else if (step === 4) {
+      if (formData.payment_mode === 'online' && !formData.transaction_id.trim()) {
+        setFormError("Please enter the UPI Transaction ID (UTR) to confirm your payment.")
+        return false
+      }
     }
     return true
   }
@@ -178,6 +185,8 @@ export default function BookAppointment() {
             appointment_date: formData.date,
             appointment_time: formData.time,
             reason: formData.reason,
+            payment_mode: formData.payment_mode,
+            transaction_id: formData.transaction_id,
             status: 'upcoming'
           }])
           .select()
@@ -513,9 +522,71 @@ export default function BookAppointment() {
                       <FileText className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Review & Confirm</h3>
-                      <p className="text-sm text-slate-500">Please verify the details below.</p>
+                      <h3 className="text-xl font-bold text-slate-900">Review & Payment</h3>
+                      <p className="text-sm text-slate-500">Please choose how you want to pay and verify your details.</p>
                     </div>
+                  </div>
+
+                  {/* Payment Selection */}
+                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-6 shadow-sm mb-6">
+                    <h4 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Payment Method</h4>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setFormData({...formData, payment_mode: 'offline'})}
+                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                          formData.payment_mode === 'offline' 
+                            ? 'border-primary-600 bg-primary-50' 
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className="font-bold text-slate-900">Pay at Clinic</span>
+                        <span className="text-sm text-slate-500 mt-1">Cash / Card on arrival</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setFormData({...formData, payment_mode: 'online'})}
+                        className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                          formData.payment_mode === 'online' 
+                            ? 'border-primary-600 bg-primary-50' 
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className="font-bold text-slate-900">Pay Online (UPI)</span>
+                        <span className="text-sm text-slate-500 mt-1">Scan QR Code</span>
+                      </button>
+                    </div>
+
+                    {formData.payment_mode === 'online' && (
+                      <div className="mt-6 p-6 bg-slate-50 rounded-xl border border-slate-200 flex flex-col md:flex-row gap-6 items-center">
+                        <div className="shrink-0 bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                          <img 
+                            src="/images/payment_qr.jpg" 
+                            alt="Payment QR Code" 
+                            className="w-48 h-48 object-cover rounded-lg"
+                          />
+                        </div>
+                        <div className="flex-1 space-y-4 text-center md:text-left">
+                          <div>
+                            <h5 className="font-bold text-slate-900">Scan to Pay using UPI</h5>
+                            <p className="text-sm text-slate-600">Scan this code using PhonePe, GPay, or Paytm to complete your consultation fee payment.</p>
+                          </div>
+                          <div className="space-y-2 text-left">
+                            <Label htmlFor="transaction_id" className="text-sm font-semibold">Transaction ID (UTR) <span className="text-red-500">*</span></Label>
+                            <Input 
+                              id="transaction_id" 
+                              value={formData.transaction_id} 
+                              onChange={(e) => setFormData({...formData, transaction_id: e.target.value})} 
+                              placeholder="e.g. 123456789012"
+                              className="bg-white"
+                            />
+                            <p className="text-xs text-slate-500">Please enter the 12-digit UPI reference number after payment.</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-4">
