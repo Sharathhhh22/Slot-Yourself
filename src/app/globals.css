@@ -79,7 +79,7 @@
     font-weight: var(--font-weight-extrabold) !important;
     letter-spacing: -0.04em !important;
     line-height: 0.95 !important;
-    font-size: clamp(2.5rem, 5vw, 5rem) !important;
+    font-size: clamp(1.875rem, 4vw, 2.25rem) !important;
   }
 
   .subheading {
