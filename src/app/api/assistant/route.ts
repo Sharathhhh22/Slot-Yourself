@@ -14,6 +14,7 @@ const RED_FLAGS = [
 ]
 
 export async function POST(req: Request) {
+  console.log("Checking API Key inside route.ts POST:", process.env.GEMINI_API_KEY ? "EXISTS" : "UNDEFINED", "Actual value:", process.env.GEMINI_API_KEY);
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()

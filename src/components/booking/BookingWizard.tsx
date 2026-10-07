@@ -8,9 +8,9 @@ import { ArrowLeft, ArrowRight, Activity, MapPin, Calendar as CalendarIcon, User
 import { Step1Concern } from "./Step1Concern"
 import { Step2Clinic } from "./Step2Clinic"
 import { Step3DateTime } from "./Step3DateTime"
-// import { Step4Details } from "./Step4Details"
-// import { Step5Review } from "./Step5Review"
-// import { Step6Confirmation } from "./Step6Confirmation"
+import { Step4Details } from "./Step4Details"
+import { Step5Review } from "./Step5Review"
+import { Step6Confirmation } from "./Step6Confirmation"
 
 const steps = [
   { id: 1, title: "Concern", icon: Activity },
@@ -138,11 +138,27 @@ export function BookingWizard() {
                 onPrev={prevStep}
               />
             )}
-            {/* 
-            {currentStep === 4 && <Step4Details />}
-            {currentStep === 5 && <Step5Review />}
-            {currentStep === 6 && <Step6Confirmation />}
-            */}
+            {currentStep === 4 && (
+              <Step4Details
+                data={bookingData}
+                updateData={updateData}
+                onNext={nextStep}
+                onPrev={prevStep}
+              />
+            )}
+            {currentStep === 5 && (
+              <Step5Review
+                data={bookingData}
+                updateData={updateData}
+                onNext={nextStep}
+                onPrev={prevStep}
+              />
+            )}
+            {currentStep === 6 && (
+              <Step6Confirmation
+                data={bookingData}
+              />
+            )}
           </motion.div>
         </AnimatePresence>
 
