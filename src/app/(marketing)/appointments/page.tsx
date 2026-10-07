@@ -6,6 +6,7 @@ import Link from "next/link"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import CancelButton from "./CancelButton"
+import EmergencyButton from "@/components/telephony/EmergencyButton"
 
 export const revalidate = 0 // Always fetch latest data
 
@@ -24,7 +25,7 @@ export default async function AppointmentsPage() {
   const { data: appointments } = await supabase
     .from('appointments_v2')
     .select(`
-      id, appointment_date, appointment_time, status, reason, payment_mode,
+      id, appointment_date, appointment_time, status, reason, payment_mode, doctor_id,
       doctors(name),
       clinics(name),
       departments(name),
@@ -117,6 +118,13 @@ export default async function AppointmentsPage() {
                           <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
                             Upcoming
                           </span>
+                          {!isAdminOrStaff && (
+                            <EmergencyButton 
+                              doctorId={apt.doctor_id} 
+                              doctorName={apt.doctors?.name} 
+                              appointmentId={apt.id} 
+                            />
+                          )}
                           <CancelButton appointmentId={apt.id} />
                         </div>
                       </TableCell>
