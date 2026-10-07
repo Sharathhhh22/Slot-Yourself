@@ -14,11 +14,11 @@ export async function createClinic(formData: FormData) {
   const address = formData.get("address") as string
   const phone = formData.get("phone") as string
 
-  if (!name) return { error: "Name is required" }
+  if (!name) throw new Error("Name is required")
 
   const { error } = await supabase.from('clinics').insert([{ name, address, phone }])
   
-  if (error) return { error: error.message }
+  if (error) throw new Error(error.message)
   
   revalidatePath('/admin/clinics')
   redirect('/admin/clinics')
@@ -39,11 +39,11 @@ export async function createDepartment(formData: FormData) {
   const name = formData.get("name") as string
   const description = formData.get("description") as string
 
-  if (!name) return { error: "Name is required" }
+  if (!name) throw new Error("Name is required")
 
   const { error } = await supabase.from('departments').insert([{ name, description }])
   
-  if (error) return { error: error.message }
+  if (error) throw new Error(error.message)
   
   revalidatePath('/admin/departments')
   redirect('/admin/departments')
@@ -65,11 +65,11 @@ export async function createDoctor(formData: FormData) {
   const specialty = formData.get("specialty") as string
   const experience_years = parseInt(formData.get("experience_years") as string) || 0
 
-  if (!name) return { error: "Name is required" }
+  if (!name) throw new Error("Name is required")
 
   const { error } = await supabase.from('doctors').insert([{ name, specialty, experience_years }])
   
-  if (error) return { error: error.message }
+  if (error) throw new Error(error.message)
   
   revalidatePath('/admin/doctors')
   redirect('/admin/doctors')
