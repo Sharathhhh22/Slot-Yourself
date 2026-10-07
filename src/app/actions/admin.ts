@@ -14,11 +14,15 @@ export async function createClinic(formData: FormData) {
   const address = formData.get("address") as string
   const phone = formData.get("phone") as string
 
-  if (!name) throw new Error("Name is required")
+  if (!name) {
+    redirect('/admin/clinics/new?error=Name is required')
+  }
 
   const { error } = await supabase.from('clinics').insert([{ name, address, phone }])
   
-  if (error) throw new Error(error.message)
+  if (error) {
+    redirect('/admin/clinics/new?error=' + encodeURIComponent(error.message))
+  }
   
   revalidatePath('/admin/clinics')
   redirect('/admin/clinics')
@@ -79,4 +83,30 @@ export async function toggleDoctorStatus(id: string, currentStatus: boolean) {
   const supabase = await createClient()
   await supabase.from('doctors').update({ is_active: !currentStatus }).eq('id', id)
   revalidatePath('/admin/doctors')
+}
+
+export async function saveMainClinic(formData: FormData) {
+  const supabase = await createClient()
+  
+  const name = formData.get("clinicName") as string
+  const address = formData.get("address") as string
+  const phone = formData.get("contactPhone") as string
+  
+  if (!name) {
+    redirect('/settings?error=Name is required')
+  }
+
+  // Try to find the first existing clinic
+  const { data: clinics } = await supabase.from('clinics').select('id').limit(1)
+  
+  if (clinics && clinics.length > 0) {
+    // Update existing
+    await supabase.from('clinics').update({ name, address, phone }).eq('id', clinics[0].id)
+  } else {
+    // Insert new
+    await supabase.from('clinics').insert([{ name, address, phone }])
+  }
+  
+  revalidatePath('/settings')
+  redirect('/settings?success=1')
 }
