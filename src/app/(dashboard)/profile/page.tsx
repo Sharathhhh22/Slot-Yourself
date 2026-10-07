@@ -45,7 +45,7 @@ export default async function ProfilePage() {
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       {/* HEADER SECTION */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
-        <div className="h-32 bg-slate-900 absolute top-0 left-0 w-full" />
+        <div className="h-32 bg-gradient-to-tr from-slate-950 via-indigo-950 to-blue-900 absolute top-0 left-0 w-full" />
         
         <div className="relative pt-16 px-6 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:items-end">
           <div className="shrink-0 -mt-2">
