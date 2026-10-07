@@ -34,7 +34,7 @@ export async function GET(req: Request) {
         .from('clinics')
         .select('id as clinic_id, name as clinic_name, address as clinic_address')
         .eq('is_active', true)
-        .ilike('address', \`%\${search}%\`)
+        .ilike('address', `%${search}%`)
         .limit(20)
 
       if (error) throw error
@@ -65,7 +65,7 @@ export async function GET(req: Request) {
 
     if (specialty) {
       // Fuzzy match the specialty
-      doctorsQuery = doctorsQuery.ilike('specialty', \`%\${specialty}%\`)
+      doctorsQuery = doctorsQuery.ilike('specialty', `%${specialty}%`)
     }
 
     const { data: doctorsData, error: docsError } = await doctorsQuery

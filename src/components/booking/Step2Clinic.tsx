@@ -52,7 +52,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
     setIsLoading(true)
     setError("")
     try {
-      const res = await fetch(\`/api/clinics/nearby?lat=\${lat}&lon=\${lon}&specialty=\${encodeURIComponent(recommendedSpecialty)}\`)
+      const res = await fetch(`/api/clinics/nearby?lat=${lat}&lon=${lon}&specialty=${encodeURIComponent(recommendedSpecialty)}`)
       const result = await res.json()
       if (!res.ok) throw new Error(result.error)
       setClinics(result.clinics)
@@ -67,7 +67,7 @@ export function Step2Clinic({ data, updateData, onNext }: Step2Props) {
     setIsLoading(true)
     setError("")
     try {
-      const res = await fetch(\`/api/clinics/nearby?search=\${encodeURIComponent(query)}&specialty=\${encodeURIComponent(recommendedSpecialty)}\`)
+      const res = await fetch(`/api/clinics/nearby?search=${encodeURIComponent(query)}&specialty=${encodeURIComponent(recommendedSpecialty)}`)
       const result = await res.json()
       if (!res.ok) throw new Error(result.error)
       setClinics(result.clinics)
