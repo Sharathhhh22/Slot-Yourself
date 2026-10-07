@@ -54,14 +54,6 @@ export default async function Dashboard() {
           </h2>
           <p className="text-slate-500 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
         </div>
-        {!isAdminOrStaff && (
-          <a
-            href="/appointments/new"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 btn-text text-[14px] text-white transition-opacity hover:opacity-90 shadow-sm"
-          >
-            Book Appointment
-          </a>
-        )}
       </div>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
