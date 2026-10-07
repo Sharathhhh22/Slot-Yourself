@@ -68,7 +68,7 @@ export function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className={`text-[13px] font-medium tracking-wide transition-colors ${
+                  className={`nav-text text-sm tracking-wide transition-colors ${
                     isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
                   }`}
                 >
@@ -82,7 +82,7 @@ export function Navbar() {
             {user ? (
               <Link 
                 href="/dashboard"
-                className="inline-flex h-8 items-center justify-center rounded-md bg-slate-100 px-4 py-2 text-[13px] font-medium tracking-wide text-slate-900 transition-colors hover:bg-slate-200"
+                className="inline-flex h-8 items-center justify-center rounded-md bg-slate-100 px-4 py-2 nav-text text-sm tracking-wide text-slate-900 transition-colors hover:bg-slate-200"
               >
                 <User className="w-3.5 h-3.5 mr-2" />
                 Dashboard
@@ -91,13 +91,13 @@ export function Navbar() {
               <>
                 <Link 
                   href="/login"
-                  className="text-[13px] font-medium tracking-wide text-slate-500 transition-colors hover:text-slate-900"
+                  className="nav-text text-sm tracking-wide text-slate-500 transition-colors hover:text-slate-900"
                 >
                   Log In
                 </Link>
                 <Link 
                   href="/signup"
-                  className="inline-flex h-8 items-center justify-center rounded bg-slate-900 px-5 text-[13px] font-medium tracking-wide text-white transition-opacity hover:opacity-90"
+                  className="inline-flex h-8 items-center justify-center rounded bg-slate-900 px-5 nav-text text-sm tracking-wide text-white transition-opacity hover:opacity-90"
                 >
                   Create Account
                 </Link>
@@ -130,7 +130,7 @@ export function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-lg font-medium tracking-wide text-slate-900"
+                  className="nav-text text-lg tracking-wide text-slate-900"
                 >
                   {link.label}
                 </Link>

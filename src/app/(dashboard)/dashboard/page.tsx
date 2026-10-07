@@ -49,7 +49,7 @@ export default async function Dashboard() {
     <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+          <h2 className="section-title text-slate-900">
             Welcome, {profile?.full_name || 'User'}
           </h2>
           <p className="text-slate-500 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
@@ -57,7 +57,7 @@ export default async function Dashboard() {
         {!isAdminOrStaff && (
           <a
             href="/appointments/new"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 text-[14px] font-medium tracking-wide text-white transition-opacity hover:opacity-90 shadow-sm"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 btn-text text-[14px] text-white transition-opacity hover:opacity-90 shadow-sm"
           >
             Book Appointment
           </a>
@@ -72,7 +72,7 @@ export default async function Dashboard() {
               <Users className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-slate-900">{uniquePatients}</div>
+              <div className="card-title text-2xl text-slate-900">{uniquePatients}</div>
               <p className="text-xs text-slate-500">Registered in system</p>
             </CardContent>
           </Card>
@@ -83,7 +83,7 @@ export default async function Dashboard() {
             <Calendar className="h-4 w-4 text-slate-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{totalAppointments}</div>
+            <div className="card-title text-2xl text-slate-900">{totalAppointments}</div>
             <p className="text-xs text-slate-500">All time bookings</p>
           </CardContent>
         </Card>
@@ -93,7 +93,7 @@ export default async function Dashboard() {
             <Activity className="h-4 w-4 text-slate-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{doctorsCount || 0}</div>
+            <div className="card-title text-2xl text-slate-900">{doctorsCount || 0}</div>
             <p className="text-xs text-slate-500">Active specialists</p>
           </CardContent>
         </Card>
@@ -103,7 +103,7 @@ export default async function Dashboard() {
             <Clock className="h-4 w-4 text-slate-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-slate-900">{upcomingAppointments.length}</div>
+            <div className="card-title text-2xl text-slate-900">{upcomingAppointments.length}</div>
             <p className="text-xs text-slate-500">Scheduled appointments</p>
           </CardContent>
         </Card>

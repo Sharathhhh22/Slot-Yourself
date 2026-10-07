@@ -273,7 +273,7 @@ export default function BookAppointment() {
       
       {/* HEADER */}
       <div className="mb-10 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-3">Book Appointment</h1>
+        <h1 className="section-title text-slate-900 mb-3">Book Appointment</h1>
         {step < 5 && (
           <div className="flex items-center justify-center gap-2 text-sm font-medium">
             <span className={step >= 1 ? "text-primary-600" : "text-slate-400"}>Specialty</span>
@@ -305,7 +305,7 @@ export default function BookAppointment() {
             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
               <CheckCircle2 className="h-10 w-10 text-green-600" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-green-900 mb-3">Appointment Confirmed!</h2>
+            <h2 className="section-title text-green-900 mb-3">Appointment Confirmed!</h2>
             <p className="text-green-700 max-w-md">
               Your appointment with {formData.doctor_name} has been securely scheduled.
             </p>
@@ -369,7 +369,7 @@ export default function BookAppointment() {
                       <Stethoscope className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Choose a Specialist</h3>
+                      <h3 className="subheading text-slate-900">Choose a Specialist</h3>
                       <p className="text-sm text-slate-500">Select the department and doctor you wish to see.</p>
                     </div>
                   </div>
@@ -423,7 +423,7 @@ export default function BookAppointment() {
                       <Clock className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Choose Date & Time</h3>
+                      <h3 className="subheading text-slate-900">Choose Date & Time</h3>
                       <p className="text-sm text-slate-500">Pick an available slot for {formData.doctor_name}.</p>
                     </div>
                   </div>
@@ -485,7 +485,7 @@ export default function BookAppointment() {
                       <User className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Patient Details</h3>
+                      <h3 className="subheading text-slate-900">Patient Details</h3>
                       <p className="text-sm text-slate-500">Who is this appointment for?</p>
                     </div>
                   </div>
@@ -534,14 +534,14 @@ export default function BookAppointment() {
                       <FileText className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">Review & Payment</h3>
+                      <h3 className="subheading text-slate-900">Review & Payment</h3>
                       <p className="text-sm text-slate-500">Please choose how you want to pay and verify your details.</p>
                     </div>
                   </div>
 
                   {/* Payment Selection */}
                   <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-6 shadow-sm mb-6">
-                    <h4 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">Payment Method</h4>
+                    <h4 className="subheading text-slate-900 border-b border-slate-100 pb-3">Payment Method</h4>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <button

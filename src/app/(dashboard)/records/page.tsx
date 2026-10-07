@@ -120,7 +120,7 @@ export default function MedicalRecordsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">Medical Records</h1>
+        <h1 className="section-title text-slate-900">Medical Records</h1>
         <p className="text-slate-500 mt-2">Securely store and access your past prescriptions, lab reports, and scans.</p>
       </div>
 

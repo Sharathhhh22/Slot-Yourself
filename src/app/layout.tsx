@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-
-const sans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "SlotUrSelf | Book Doctors Instantly",
@@ -29,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${sans.className} min-h-screen bg-slate-50 antialiased`}>
+      <body className={`min-h-screen bg-slate-50 antialiased`}>
         {children}
       </body>
     </html>

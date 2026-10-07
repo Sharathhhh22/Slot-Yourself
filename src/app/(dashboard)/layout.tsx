@@ -96,7 +96,7 @@ export default function DashboardLayout({
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg nav-text text-sm transition-colors ${
                   isActive 
                     ? "bg-primary-50 text-primary-700" 
                     : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
@@ -112,7 +112,7 @@ export default function DashboardLayout({
         <div className="p-4 border-t border-slate-200 shrink-0">
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-slate-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+            className="flex items-center space-x-3 px-3 py-2.5 w-full rounded-lg nav-text text-sm text-slate-600 hover:bg-red-50 hover:text-red-700 transition-colors"
           >
             <LogOut className="w-5 h-5 text-slate-400 group-hover:text-red-600" />
             <span>Logout</span>

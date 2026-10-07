@@ -32,11 +32,11 @@ export default function HealthcareLandingPage() {
                 <HeartPulse className="w-4 h-4 mr-2" /> For Patients
               </motion.div>
               
-              <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+              <motion.h1 variants={fadeUp} className="hero-title mb-6 text-slate-900">
                 Book your doctor in under 60 seconds.
               </motion.h1>
               
-              <motion.p variants={fadeUp} className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed">
+              <motion.p variants={fadeUp} className="body-text text-lg md:text-xl text-slate-600 mb-10">
                 Verified specialists, real-time slots, and instant confirmations. Skip the phone calls and waiting rooms.
               </motion.p>
               
@@ -70,7 +70,7 @@ export default function HealthcareLandingPage() {
                     <Stethoscope className="w-8 h-8 text-primary-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg">Dr. Sarah Jenkins</h3>
+                    <h3 className="card-title">Dr. Sarah Jenkins</h3>
                     <p className="text-sm text-slate-500">Cardiology Specialist</p>
                   </div>
                 </div>
@@ -128,7 +128,7 @@ export default function HealthcareLandingPage() {
         <section className="py-24 bg-slate-50">
           <div className="max-w-[1400px] mx-auto px-6 md:px-16">
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Comprehensive Care</h2>
+              <h2 className="section-title mb-4">Comprehensive Care</h2>
               <p className="text-slate-600 text-lg">We connect you with top-tier medical professionals across all major specialties.</p>
             </div>
 
@@ -149,7 +149,7 @@ export default function HealthcareLandingPage() {
                   <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center mb-6">
                     <item.icon className="w-6 h-6 text-primary-600" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                  <h3 className="subheading mb-3">{item.title}</h3>
                   <p className="text-slate-600 leading-relaxed">{item.desc}</p>
                 </motion.div>
               ))}
@@ -161,7 +161,7 @@ export default function HealthcareLandingPage() {
         <section id="how-it-works" className="py-24 bg-white">
           <div className="max-w-[1400px] mx-auto px-6 md:px-16">
             <div className="text-center max-w-2xl mx-auto mb-20">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+              <h2 className="section-title mb-4">How It Works</h2>
               <p className="text-slate-600 text-lg">Your journey to better health in four simple steps.</p>
             </div>
 
@@ -187,7 +187,7 @@ export default function HealthcareLandingPage() {
                     <div className="w-24 h-24 bg-white border-4 border-primary-50 rounded-full flex items-center justify-center mb-6 shadow-sm">
                       <span className="text-2xl font-bold text-primary-600">0{idx + 1}</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+                    <h3 className="subheading mb-2">{step.title}</h3>
                     <p className="text-slate-600">{step.desc}</p>
                   </motion.div>
                 ))}
@@ -200,7 +200,7 @@ export default function HealthcareLandingPage() {
         <section className="py-24 bg-slate-900 text-white">
           <div className="max-w-[1400px] mx-auto px-6 md:px-16">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Trusted by Patients</h2>
+              <h2 className="section-title mb-4">Trusted by Patients</h2>
               <p className="text-slate-400 text-lg max-w-2xl mx-auto">Don't just take our word for it. Here's what real people have to say.</p>
             </div>
             
@@ -230,7 +230,7 @@ export default function HealthcareLandingPage() {
         <section className="py-24 bg-white">
           <div className="max-w-[800px] mx-auto px-6 md:px-16">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+              <h2 className="section-title mb-4">Frequently Asked Questions</h2>
             </div>
             
             <div className="space-y-4">
@@ -244,7 +244,7 @@ export default function HealthcareLandingPage() {
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                   >
-                    <span className="font-bold text-lg">{faq.q}</span>
+                    <span className="card-title">{faq.q}</span>
                     <ChevronDown className={cn("w-5 h-5 text-slate-400 transition-transform", openFaq === idx && "rotate-180")} />
                   </button>
                   {openFaq === idx && (
@@ -261,7 +261,7 @@ export default function HealthcareLandingPage() {
         {/* FINAL CTA */}
         <section className="py-24 bg-primary-600 text-white">
           <div className="max-w-[1000px] mx-auto px-6 md:px-16 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to get started?</h2>
+            <h2 className="section-title mb-6">Ready to get started?</h2>
             <p className="text-primary-100 text-xl mb-10 max-w-2xl mx-auto">
               Join thousands of patients who book their appointments instantly.
             </p>
