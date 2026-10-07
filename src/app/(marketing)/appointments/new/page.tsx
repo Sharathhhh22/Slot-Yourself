@@ -187,8 +187,24 @@ export default function BookAppointment() {
           }
           throw error
         }
+        if (data && data.length > 0) {
+          setAppointmentId(data[0].id)
+          
+          // Trigger the email asynchronously (don't block the UI)
+          if (user.email) {
+            import('@/app/actions/email').then(({ sendAppointmentConfirmationEmail }) => {
+              sendAppointmentConfirmationEmail(
+                user.email,
+                formData.patient_name,
+                formData.doctor_name,
+                formData.date,
+                formatTime(formData.time),
+                formData.clinic_name
+              ).catch(console.error)
+            })
+          }
+        }
         
-        if (data && data.length > 0) setAppointmentId(data[0].id)
         setStep(5) // Success step
         window.scrollTo(0, 0)
       } catch (error: any) {
