@@ -46,17 +46,25 @@ export default async function Dashboard() {
   const { count: doctorsCount } = await supabase.from('doctors').select('*', { count: 'exact', head: true }).eq('is_active', true)
 
   return (
-    <div className="container mx-auto p-6 md:p-8">
-      <div className="flex items-center justify-between space-y-2">
+    <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">
             Welcome, {profile?.full_name || 'User'}
           </h2>
-          <p className="text-slate-500">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
+          <p className="text-slate-500 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
         </div>
+        {!isAdminOrStaff && (
+          <a
+            href="/appointments/new"
+            className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-6 text-[14px] font-medium tracking-wide text-white transition-opacity hover:opacity-90 shadow-sm"
+          >
+            Book Appointment
+          </a>
+        )}
       </div>
       
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {isAdminOrStaff && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
