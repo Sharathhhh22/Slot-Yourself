@@ -52,6 +52,7 @@ export default function DashboardLayout({
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/appointments", label: "Appointments", icon: CalendarCheck },
+    { href: "/records", label: "Medical Records", icon: User },
     ...(isDoctor ? [{ href: "/doctor", label: "Doctor Portal", icon: Stethoscope }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin Panel", icon: Settings }] : []),
     { href: "/profile", label: "Profile", icon: User },

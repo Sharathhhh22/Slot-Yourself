@@ -203,7 +203,7 @@ export default function BookAppointment() {
             setTicketNumber(data[0].ticket_number)
           }
           
-          // Trigger the email asynchronously (don't block the UI)
+          // Trigger the email and SMS asynchronously (don't block the UI)
           if (user.email) {
             import('@/app/actions/email').then(({ sendAppointmentConfirmationEmail }) => {
               sendAppointmentConfirmationEmail(
@@ -213,6 +213,18 @@ export default function BookAppointment() {
                 formData.date,
                 formatTime(formData.time),
                 formData.clinic_name
+              ).catch(console.error)
+            })
+          }
+
+          if (formData.patient_phone) {
+            import('@/app/actions/sms').then(({ sendSMSNotification }) => {
+              sendSMSNotification(
+                formData.patient_phone,
+                formData.patient_name,
+                formData.doctor_name,
+                formData.date,
+                formatTime(formData.time)
               ).catch(console.error)
             })
           }
