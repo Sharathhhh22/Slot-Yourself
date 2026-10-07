@@ -32,11 +32,9 @@ export function EditProfileModal({ profile, userEmail }: { profile: any, userEma
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="bg-white hover:bg-slate-50">
-          <Pencil className="w-4 h-4 mr-2" />
-          Edit Profile
-        </Button>
+      <DialogTrigger className="inline-flex items-center justify-center rounded-md text-sm font-medium border border-slate-200 bg-white hover:bg-slate-50 h-9 px-4 py-2">
+        <Pencil className="w-4 h-4 mr-2" />
+        Edit Profile
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
