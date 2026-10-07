@@ -2,27 +2,27 @@
 @import "tailwindcss/utilities";
 
 @theme {
-  --color-primary-50: #f7f7f5;
-  --color-primary-100: #e5e5e2;
-  --color-primary-200: #d4d4d1;
-  --color-primary-300: #a3a3a1;
-  --color-primary-400: #6b6b6b;
-  --color-primary-500: #404040;
-  --color-primary-600: #242424;
-  --color-primary-700: #1a1a1a;
-  --color-primary-800: #111111;
-  --color-primary-900: #0a0a0a;
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
   
-  --color-slate-50: #f7f7f5;
-  --color-slate-100: #e5e5e2;
-  --color-slate-200: #d4d4d1;
-  --color-slate-300: #a3a3a1;
-  --color-slate-400: #8a8a8a;
-  --color-slate-500: #6b6b6b;
-  --color-slate-600: #404040;
-  --color-slate-700: #242424;
-  --color-slate-800: #111111;
-  --color-slate-900: #0a0a0a;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
 }
 
 :root {
