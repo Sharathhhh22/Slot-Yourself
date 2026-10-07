@@ -22,6 +22,7 @@ export default function DashboardLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isDoctor, setIsDoctor] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -33,6 +34,9 @@ export default function DashboardLayout({
         const { data } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
         if (data?.role === 'admin' || data?.role === 'staff') {
           setIsAdmin(true)
+        }
+        if (data?.role === 'doctor') {
+          setIsDoctor(true)
         }
       }
     }
@@ -48,6 +52,7 @@ export default function DashboardLayout({
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/appointments", label: "Appointments", icon: CalendarCheck },
+    ...(isDoctor ? [{ href: "/doctor", label: "Doctor Portal", icon: Stethoscope }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin Panel", icon: Settings }] : []),
     { href: "/profile", label: "Profile", icon: User },
     { href: "/settings", label: "Settings", icon: Settings },
