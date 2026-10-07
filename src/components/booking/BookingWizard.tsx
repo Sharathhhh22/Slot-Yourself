@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight, Activity, MapPin, Calendar as CalendarIcon, User, CheckCircle2 } from "lucide-react"
 
 import { Step1Concern } from "./Step1Concern"
-// import { Step2Clinic } from "./Step2Clinic"
+import { Step2Clinic } from "./Step2Clinic"
 // import { Step3DateTime } from "./Step3DateTime"
 // import { Step4Details } from "./Step4Details"
 // import { Step5Review } from "./Step5Review"
@@ -67,12 +67,12 @@ export function BookingWizard() {
     animate: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.4, ease: "easeInOut" }
     },
     exit: (dir: number) => ({
       x: dir > 0 ? -50 : 50,
       opacity: 0,
-      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.3, ease: "easeInOut" }
     })
   }
 
@@ -125,8 +125,14 @@ export function BookingWizard() {
                 onNext={nextStep} 
               />
             )}
+            {currentStep === 2 && (
+              <Step2Clinic 
+                data={bookingData} 
+                updateData={updateData} 
+                onNext={nextStep} 
+              />
+            )}
             {/* 
-            {currentStep === 2 && <Step2Clinic />}
             {currentStep === 3 && <Step3DateTime />}
             {currentStep === 4 && <Step4Details />}
             {currentStep === 5 && <Step5Review />}
