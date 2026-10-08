@@ -28,8 +28,8 @@ export class TwilioProvider implements TelephonyProvider {
           This is an emergency proxy call from Slot Yourself. 
           Your phone numbers are hidden. Connecting you to your doctor now.
         </Say>
-        <Dial timeout="30" callerId="\${twilioNumber}">
-          \${req.doctorPhone}
+        <Dial timeout="30" callerId="${twilioNumber}">
+          ${req.doctorPhone}
         </Dial>
       </Response>
     `

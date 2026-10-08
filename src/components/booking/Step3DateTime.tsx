@@ -43,8 +43,8 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
   const timeSlots = useMemo(() => {
     const slots = []
     for (let h = 9; h < 17; h++) {
-      slots.push(`\${h.toString().padStart(2, '0')}:00:00`)
-      slots.push(`\${h.toString().padStart(2, '0')}:30:00`)
+      slots.push(`${h.toString().padStart(2, '0')}:00:00`)
+      slots.push(`${h.toString().padStart(2, '0')}:30:00`)
     }
     return slots
   }, [])
@@ -56,7 +56,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
     const hour = parseInt(h, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
     const displayHour = hour > 12 ? hour - 12 : hour
-    return `\${displayHour}:\${m} \${ampm}`
+    return `${displayHour}:${m} ${ampm}`
   }
 
   // 1. Fetch taken slots securely when date changes
@@ -86,7 +86,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
     fetchSlots()
 
     // 2. Realtime Broadcast subscription for instantaneous updates
-    const channel = supabase.channel(`doctor_slots_\${doctorId}`)
+    const channel = supabase.channel(`doctor_slots_${doctorId}`)
       .on('broadcast', { event: 'slot_held' }, (payload) => {
         if (payload.payload.date === selectedDate) {
           setTakenSlots(prev => [...prev, payload.payload.time])
@@ -119,7 +119,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
     setError("")
 
     // Optimistic broadcast to other users viewing this doctor
-    await supabase.channel(`doctor_slots_\${doctorId}`).send({
+    await supabase.channel(`doctor_slots_${doctorId}`).send({
       type: 'broadcast',
       event: 'slot_held',
       payload: { date: selectedDate, time: selectedTime }
@@ -156,7 +156,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
       setSelectedTime(null) // Unselect
       
       // Rollback broadcast
-      await supabase.channel(`doctor_slots_\${doctorId}`).send({
+      await supabase.channel(`doctor_slots_${doctorId}`).send({
         type: 'broadcast',
         event: 'slot_released',
         payload: { date: selectedDate, time: selectedTime }
@@ -191,19 +191,19 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                     setSelectedDate(dateStr)
                     setSelectedTime(null)
                   }}
-                  className={`snap-start shrink-0 flex flex-col items-center justify-center w-20 h-24 rounded-2xl border transition-all \${
+                  className={`snap-start shrink-0 flex flex-col items-center justify-center w-20 h-24 rounded-2xl border transition-all ${
                     isSelected 
                       ? 'bg-primary-600 border-primary-600 text-white shadow-md shadow-primary-600/20' 
                       : 'bg-white border-slate-200 text-slate-600 hover:border-primary-300 hover:bg-primary-50'
                   }`}
                 >
-                  <span className={`text-xs font-medium uppercase \${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
+                  <span className={`text-xs font-medium uppercase ${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
                     {date.toLocaleDateString('en-US', { weekday: 'short' })}
                   </span>
                   <span className="text-2xl font-bold mt-1">
                     {date.getDate()}
                   </span>
-                  <span className={`text-xs \${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
+                  <span className={`text-xs ${isSelected ? 'text-primary-100' : 'text-slate-400'}`}>
                     {date.toLocaleDateString('en-US', { month: 'short' })}
                   </span>
                 </button>
@@ -235,7 +235,7 @@ export function Step3DateTime({ data, updateData, onNext, onPrev }: Step3Props) 
                       key={i}
                       disabled={isTaken || isHolding}
                       onClick={() => handleTimeSelect(time)}
-                      className={`py-3 rounded-xl border text-sm font-medium transition-all \${
+                      className={`py-3 rounded-xl border text-sm font-medium transition-all ${
                         isTaken 
                           ? 'bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed line-through' 
                           : isSelected
