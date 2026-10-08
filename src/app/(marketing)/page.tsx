@@ -21,7 +21,7 @@ export default function HealthcareLandingPage() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-primary-100 selection:text-primary-900">
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32 px-6 md:px-16">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-white -z-10" />

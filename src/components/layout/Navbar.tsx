@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, User } from "lucide-react"
+import { Menu, X, User, Search, Moon } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 
 const navLinks = [
@@ -79,6 +79,19 @@ export function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-6">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input 
+                type="text" 
+                placeholder="Search..." 
+                className="h-8 w-40 bg-slate-100 rounded-md pl-8 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all"
+              />
+            </div>
+            
+            <button className="text-slate-500 hover:text-slate-900 transition-colors" aria-label="Toggle Dark Mode" onClick={() => alert("Dark mode coming soon!")}>
+              <Moon className="w-4 h-4" />
+            </button>
+
             {user ? (
               <Link 
                 href="/dashboard"
