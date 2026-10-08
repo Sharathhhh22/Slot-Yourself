@@ -29,8 +29,8 @@ export async function POST(req: Request) {
           patient_id: user.id,
           clinic_id: clinicId,
           doctor_id: doctorId,
-          date: date,
-          time: time,
+          appointment_date: date,
+            appointment_time: time,
           status: 'held',
           held_until: heldUntil
         }
