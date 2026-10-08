@@ -13,7 +13,7 @@ export async function PUT(req: Request) {
     const { appointmentId, dob, height, weight, guardianName, shareData, concern, aiSummary } = await req.json()
 
     if (!appointmentId || !dob) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+      return NextResponse.json({ error: 'Missing required fields: appointmentId=' + !!appointmentId + ', dob=' + !!dob }, { status: 400 })
     }
 
     // 1. Update the appointment status to confirmed and attach the details
