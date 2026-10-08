@@ -36,7 +36,7 @@ export async function PUT(req: Request) {
 
     if (updateError) {
       console.error(updateError)
-      return NextResponse.json({ error: 'Failed to confirm appointment. Hold may have expired.' }, { status: 400 })
+      return NextResponse.json({ error: 'DB Error: ' + updateError.message }, { status: 400 })
     }
 
     const { error: historyError } = await supabase
