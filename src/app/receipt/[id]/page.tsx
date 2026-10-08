@@ -4,7 +4,8 @@ import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activity } from "lucide-react"
+import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activity, Download } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function ReceiptPage() {
   const params = useParams()
@@ -40,7 +41,12 @@ export default function ReceiptPage() {
   }, [params.id])
 
   if (loading) {
-    return (
+    
+  const handleDownloadPdf = () => {
+    window.print()
+  }
+
+  return (
       <div className="flex min-h-screen items-center justify-center p-6 bg-slate-50">
         <div className="flex flex-col items-center">
           <CalendarDays className="h-8 w-8 animate-spin text-primary-600 mb-4" />
@@ -59,6 +65,8 @@ export default function ReceiptPage() {
       </div>
     )
   }
+
+  const handleDownloadPdf = () => { window.print() }
 
   return (
     <div className="container mx-auto max-w-2xl p-6 md:p-8 bg-slate-50 min-h-[calc(100vh-3.5rem)]">
@@ -162,9 +170,15 @@ export default function ReceiptPage() {
             </div>
           </div>
 
-          <div className="pt-4 text-center">
+          
+          <div className="pt-4 text-center flex flex-col items-center gap-4">
             <p className="text-xs text-slate-400 font-mono">ID: {appointment.id}</p>
+            <Button onClick={handleDownloadPdf} className="w-full max-w-xs bg-primary-600 hover:bg-primary-700 text-white print:hidden">
+              <Download className="w-4 h-4 mr-2" />
+              Download PDF
+            </Button>
           </div>
+
         </CardContent>
       </Card>
     </div>

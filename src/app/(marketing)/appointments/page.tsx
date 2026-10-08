@@ -23,7 +23,7 @@ export default async function AppointmentsPage() {
   const isAdminOrStaff = profile?.role === 'admin' || profile?.role === 'staff'
 
   const { data: appointments } = await supabase
-    .from('appointments_v2')
+    .from('appointments')
     .select(`
       id, appointment_date, appointment_time, status, reason, payment_mode, doctor_id,
       doctors(name),

@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Calendar, MapPin, ArrowRight } from "lucide-react"
+import { CheckCircle2, Calendar, MapPin, FileText } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
@@ -16,7 +16,7 @@ export function Step6Confirmation({ data }: Step6Props) {
     const hour = parseInt(h, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
     const displayHour = hour > 12 ? hour - 12 : hour
-    return `\${displayHour}:\${m} \${ampm}`
+    return `${displayHour}:${m} ${ampm}`
   }
 
   return (
@@ -55,16 +55,19 @@ export function Step6Confirmation({ data }: Step6Props) {
         </div>
       </div>
 
+      
       <div className="flex gap-4 w-full max-w-sm">
         <Button variant="outline" className="flex-1" asChild>
           <Link href="/dashboard">Home</Link>
         </Button>
         <Button className="flex-1 bg-slate-900 text-white hover:bg-slate-800" asChild>
-          <Link href="/appointments">
-            View My Appointments
+          <Link href={`/receipt/${data.appointmentId}`}>
+            <FileText className="w-4 h-4 mr-2" />
+            View Receipt
           </Link>
         </Button>
       </div>
+
     </div>
   )
 }

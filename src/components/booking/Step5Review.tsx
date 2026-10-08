@@ -3,8 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { ArrowLeft, CheckCircle2, Loader2, Calendar, Clock, MapPin, UserCheck, ShieldCheck } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Loader2, Calendar, Clock, MapPin, UserCheck, ShieldCheck, CreditCard } from "lucide-react"
 
 interface Step5Props {
   data: any
@@ -15,27 +14,30 @@ interface Step5Props {
 
 export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
   const [shareData, setShareData] = useState(true)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingOnline, setIsLoadingOnline] = useState(false)
+  const [isLoadingClinic, setIsLoadingClinic] = useState(false)
   const [error, setError] = useState("")
 
-  const handleConfirm = async () => {
-    setIsLoading(true)
+  const getPayload = () => ({
+    appointmentId: data.appointmentId,
+    dob: data.dob,
+    height: data.height,
+    weight: data.weight,
+    guardianName: data.guardianName,
+    shareData,
+    concern: shareData ? data.concern : null,
+    aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null
+  })
+
+  const handlePayAtClinic = async () => {
+    setIsLoadingClinic(true)
     setError("")
 
     try {
       const res = await fetch('/api/appointments/confirm', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          appointmentId: data.appointmentId,
-          dob: data.dob,
-          height: data.height,
-          weight: data.weight,
-          guardianName: data.guardianName,
-          shareData,
-          concern: shareData ? data.concern : null,
-          aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null
-        })
+        body: JSON.stringify(getPayload())
       })
 
       const result = await res.json()
@@ -48,8 +50,36 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
 
     } catch (err: any) {
       setError(err.message)
-    } finally {
-      setIsLoading(false)
+      setIsLoadingClinic(false)
+    }
+  }
+
+  const handlePayOnline = async () => {
+    setIsLoadingOnline(true)
+    setError("")
+
+    try {
+      const res = await fetch('/api/payments/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getPayload())
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        throw new Error(result.error || "Failed to initiate payment")
+      }
+
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl
+      } else {
+        throw new Error("No payment URL received")
+      }
+
+    } catch (err: any) {
+      setError(err.message)
+      setIsLoadingOnline(false)
     }
   }
 
@@ -59,8 +89,10 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
     const hour = parseInt(h, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
     const displayHour = hour > 12 ? hour - 12 : hour
-    return `\${displayHour}:\${m} \${ampm}`
+    return `${displayHour}:${m} ${ampm}`
   }
+
+  const isLoading = isLoadingClinic || isLoadingOnline
 
   return (
     <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-8 duration-500">
@@ -116,7 +148,7 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
               If disabled, the doctor will only see your name and age.
             </p>
             
-            <div className={`transition-all duration-300 overflow-hidden \${shareData ? 'opacity-100 max-h-[500px]' : 'opacity-50 max-h-[200px] grayscale pointer-events-none'}`}>
+            <div className={`transition-all duration-300 overflow-hidden ${shareData ? 'opacity-100 max-h-[500px]' : 'opacity-50 max-h-[200px] grayscale pointer-events-none'}`}>
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">What will be shared:</p>
                 <ul className="space-y-3">
@@ -130,11 +162,55 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
                   )}
                   <li className="text-sm text-slate-600">
                     <span className="font-medium text-slate-900">Vitals:</span> Age: {data.age} 
-                    {data.height && ` • Height: \${data.height}cm`}
-                    {data.weight && ` • Weight: \${data.weight}kg`}
+                    {data.height && ` • Height: ${data.height}cm`}
+                    {data.weight && ` • Weight: ${data.weight}kg`}
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6 shadow-sm">
+          <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+            <h3 className="font-semibold text-slate-900 flex items-center">
+              <CreditCard className="w-4 h-4 mr-2 text-primary-600" />
+              Payment Options
+            </h3>
+            <span className="font-bold text-slate-900 bg-slate-200 px-3 py-1 rounded-full text-sm">
+              ₹500 flat fee
+            </span>
+          </div>
+          <div className="p-4 sm:p-6">
+            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+              Pay online now to secure your slot instantly, or pay when you visit the clinic.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Button 
+                onClick={handlePayOnline}
+                disabled={isLoading}
+                className="bg-slate-900 text-white hover:bg-slate-800 font-semibold h-12"
+              >
+                {isLoadingOnline ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <CreditCard className="w-4 h-4 mr-2" />
+                )}
+                Pay Online (₹500)
+              </Button>
+              <Button 
+                onClick={handlePayAtClinic}
+                disabled={isLoading}
+                variant="outline"
+                className="font-semibold h-12 border-slate-300 text-slate-700 hover:bg-slate-50"
+              >
+                {isLoadingClinic ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 mr-2" />
+                )}
+                Pay at Clinic
+              </Button>
             </div>
           </div>
         </div>
@@ -147,25 +223,8 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
       </div>
 
       <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-        <Button variant="outline" onClick={onPrev} disabled={isLoading} className="font-semibold text-slate-600">
+        <Button variant="ghost" onClick={onPrev} disabled={isLoading} className="font-semibold text-slate-600">
           <ArrowLeft className="w-4 h-4 mr-2" /> Back
-        </Button>
-        <Button 
-          onClick={handleConfirm}
-          disabled={isLoading}
-          className="bg-primary-600 text-white hover:bg-primary-700 font-semibold px-8 h-11 relative overflow-hidden"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Confirming...
-            </>
-          ) : (
-            <>
-              <CheckCircle2 className="w-5 h-5 mr-2" />
-              Confirm Booking
-            </>
-          )}
         </Button>
       </div>
     </div>

@@ -23,7 +23,7 @@ export default async function Dashboard() {
   // If admin/staff: fetch all appointments.
   // We use Supabase relational queries to get nested data.
   let query = supabase
-    .from('appointments_v2')
+    .from('appointments')
     .select(`
       id, appointment_date, appointment_time, status, payment_mode, transaction_id, doctor_id,
       doctors(name),

@@ -45,10 +45,10 @@ export default function DoctorPortal() {
         const today = new Date().toISOString().split('T')[0]
         
         const { data: apptData, error: apptError } = await supabase
-          .from('appointments_v2')
+          .from('appointments')
           .select(`
             *,
-            patient:profiles!appointments_v2_patient_id_fkey(full_name, mobile, email)
+            patient:profiles!appointments_patient_id_fkey(full_name, mobile, email)
           `)
           .eq('doctor_id', doctorData.id)
           .gte('appointment_date', today)
@@ -72,7 +72,7 @@ export default function DoctorPortal() {
   const handleStatusUpdate = async (id: string, newStatus: string) => {
     try {
       const { error } = await supabase
-        .from('appointments_v2')
+        .from('appointments')
         .update({ status: newStatus })
         .eq('id', id)
 
