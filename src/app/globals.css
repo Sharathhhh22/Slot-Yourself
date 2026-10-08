@@ -231,3 +231,23 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+@media print {
+  header, footer, nav, button, .features-overlay, .no-print {
+    display: none !important;
+  }
+  body, main {
+    background-color: white !important;
+    color: black !important;
+  }
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+  }
+  .print-only {
+    display: block !important;
+  }
+}

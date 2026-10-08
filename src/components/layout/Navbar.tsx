@@ -4,8 +4,9 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, User, Search, Moon } from "lucide-react"
+import { Menu, X, User, Search, Moon, Sun } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
+import { useTheme } from "next-themes"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,11 +18,17 @@ const navLinks = [
 
 export function Navbar() {
   const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   const [user, setUser] = React.useState<any>(null)
+  const [mounted, setMounted] = React.useState(false)
   
   const supabase = createClient()
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   React.useEffect(() => {
     async function getUser() {
@@ -45,7 +52,7 @@ export function Navbar() {
 
   const navClasses = `sticky top-0 z-50 w-full transition-all duration-300 ${
     isScrolled || isMobileMenuOpen 
-      ? "bg-white/90 backdrop-blur-md border-b border-black/5" 
+      ? "bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-black/5 dark:border-white/5" 
       : "bg-transparent border-b border-transparent"
   }`
 
@@ -88,8 +95,12 @@ export function Navbar() {
               />
             </div>
             
-            <button className="text-slate-500 hover:text-slate-900 transition-colors" aria-label="Toggle Dark Mode" onClick={() => alert("Dark mode coming soon!")}>
-              <Moon className="w-4 h-4" />
+            <button 
+              className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors" 
+              aria-label="Toggle Dark Mode" 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            >
+              {mounted && theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
             {user ? (
