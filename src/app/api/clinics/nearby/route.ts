@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       // 2. Text-based fallback search (city/zip)
       const { data, error } = await supabase
         .from('clinics')
-        .select('id as clinic_id, name as clinic_name, address as clinic_address')
+        .select('clinic_id:id, clinic_name:name, clinic_address:address')
         .eq('is_active', true)
         .ilike('address', `%${search}%`)
         .limit(20)
@@ -43,7 +43,7 @@ export async function GET(req: Request) {
       // 3. Fallback: just return all active clinics
       const { data, error } = await supabase
         .from('clinics')
-        .select('id as clinic_id, name as clinic_name, address as clinic_address')
+        .select('clinic_id:id, clinic_name:name, clinic_address:address')
         .eq('is_active', true)
         .limit(20)
         
