@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle2, Calendar, MapPin, FileText, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { QRCodeSVG } from 'qrcode.react'
 
 interface Step6Props {
   data: any
@@ -22,22 +23,35 @@ export function Step6Confirmation({ data }: Step6Props) {
   const isOnlinePayment = data.paymentMethod === "ONLINE_PAYMENT"
 
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center animate-in zoom-in-95 duration-500">
+    <div className="flex flex-col items-center justify-center py-10 text-center animate-in zoom-in-95 duration-500">
       <motion.div 
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", damping: 15, delay: 0.1 }}
-        className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6"
+        className="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4"
       >
-        <CheckCircle2 className="w-10 h-10" />
+        <CheckCircle2 className="w-8 h-8" />
       </motion.div>
       
-      <h2 className="text-3xl font-bold text-slate-900 mb-2">Appointment Booked</h2>
-      <p className="text-slate-500 max-w-md mb-8">
-        Your appointment with {data.doctorName} has been successfully scheduled.
+      <h2 className="text-2xl font-bold text-slate-900 mb-2">Appointment Booked</h2>
+      <p className="text-slate-500 max-w-md mb-6 text-sm">
+        Your appointment with Dr. {data.doctorName} has been successfully scheduled.
       </p>
 
-      <div className="w-full max-w-sm bg-slate-50 rounded-2xl border border-slate-200 p-6 text-left mb-8 space-y-4">
+      {/* QR Code Container */}
+      <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm inline-block mx-auto mb-6">
+        <p className="text-xs text-slate-500 mb-2 font-medium tracking-wide uppercase">Digital Check-in Pass</p>
+        <QRCodeSVG 
+          value={data.appointmentId} 
+          size={140}
+          level="M"
+          includeMargin={true}
+          className="mx-auto"
+        />
+        <p className="text-[10px] text-slate-400 mt-2 font-mono">ID: {data.appointmentId.split('-')[0]}</p>
+      </div>
+
+      <div className="w-full max-w-sm bg-slate-50 rounded-2xl border border-slate-200 p-5 text-left mb-8 space-y-4 shadow-sm">
         <div className="flex items-start gap-3">
           <Calendar className="w-5 h-5 text-teal-600 shrink-0 mt-0.5" />
           <div>
@@ -65,7 +79,7 @@ export function Step6Confirmation({ data }: Step6Props) {
             <div className="flex justify-between items-center">
               <span className="text-slate-500">Status</span>
               <span className={`font-medium ${isOnlinePayment ? "text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md" : "text-slate-900"}`}>
-                {isOnlinePayment ? "Awaiting Payment Verification" : "Pay at clinic"}
+                {isOnlinePayment ? "Awaiting Verification" : "Pay at clinic"}
               </span>
             </div>
           </div>
@@ -73,14 +87,14 @@ export function Step6Confirmation({ data }: Step6Props) {
       </div>
 
       
-      <div className="flex gap-4 w-full max-w-sm">
+      <div className="flex gap-3 w-full max-w-sm">
         <Button variant="outline" className="flex-1 border-teal-200 text-teal-700 hover:bg-teal-50" asChild>
           <Link href="/dashboard">Home</Link>
         </Button>
         <Button className="flex-1 bg-teal-600 text-white hover:bg-teal-700" asChild>
           <Link href={`/receipt/${data.appointmentId}`}>
             <FileText className="w-4 h-4 mr-2" />
-            View Receipt
+            Full Receipt
           </Link>
         </Button>
       </div>
