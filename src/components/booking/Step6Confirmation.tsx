@@ -22,14 +22,9 @@ export function Step6Confirmation({ data }: Step6Props) {
 
   const isOnlinePayment = data.paymentMethod === "ONLINE_PAYMENT"
 
-  const qrData = JSON.stringify({
-    id: data.appointmentId,
-    patient: data.guardianName || "Patient",
-    doctor: data.doctorName,
-    clinic: data.clinicName,
-    date: data.date,
-    time: data.time
-  })
+  const qrUrl = typeof window !== 'undefined' 
+    ? `${window.location.origin}/receipt/${data.appointmentId}` 
+    : `https://slot-yourself-7afv.vercel.app/receipt/${data.appointmentId}`
 
   return (
     <div className="flex flex-col items-center justify-center py-10 text-center animate-in zoom-in-95 duration-500">
@@ -51,13 +46,13 @@ export function Step6Confirmation({ data }: Step6Props) {
       <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm mx-auto mb-6 flex flex-col items-center justify-center">
         <p className="text-xs text-slate-500 mb-2 font-medium tracking-wide uppercase">Digital Check-in Pass</p>
         <QRCodeSVG 
-          value={qrData} 
+          value={qrUrl} 
           size={140}
           level="M"
           includeMargin={true}
           className="mx-auto"
         />
-        <p className="text-[10px] text-slate-400 mt-2 font-mono">ID: {data.appointmentId ? data.appointmentId.split('-')[0] : 'N/A'}</p>
+        <p className="text-[10px] text-slate-400 mt-2 font-mono">Scan to view receipt on phone</p>
       </div>
 
       <div className="w-full max-w-sm bg-slate-50 rounded-2xl border border-slate-200 p-5 text-left mb-8 space-y-4 shadow-sm">
