@@ -57,8 +57,7 @@ export async function POST(req: Request) {
           patient_instructions: 'Please rest and drink plenty of fluids. This is a mock response until the API key is configured.'
         })
       }
-, { status: 500 })
-    }
+
 
     const prompt = `
       You are a preliminary healthcare triage assistant.
