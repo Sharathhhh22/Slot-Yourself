@@ -45,8 +45,19 @@ export async function POST(req: Request) {
     }
 
     // 2. Call AI for structured JSON analysis
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json({ error: 'GEMINI_API_KEY is not configured on the server.' }, { status: 500 })
+    
+      if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'MISSING_API_KEY') {
+        console.log("Fallback: GEMINI_API_KEY is missing, returning mock AI response.")
+        return NextResponse.json({
+          is_emergency: false,
+          urgency: 'routine',
+          plain_language_summary: 'Patient reports: ' + concern + '. (Mock Summary: API key not configured on server)',
+          recommended_departments: ['General Medicine'],
+          recommended_specialties: ['General Practitioner'],
+          patient_instructions: 'Please rest and drink plenty of fluids. This is a mock response until the API key is configured.'
+        })
+      }
+, { status: 500 })
     }
 
     const prompt = `
