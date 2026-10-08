@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { ArrowLeft, CheckCircle2, Loader2, Calendar, Clock, MapPin, UserCheck, ShieldCheck, CreditCard } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Loader2, Calendar, Clock, MapPin, UserCheck, ShieldCheck, CreditCard, Banknote, QrCode } from "lucide-react"
+import Image from "next/image"
 
 interface Step5Props {
   data: any
@@ -14,8 +15,8 @@ interface Step5Props {
 
 export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
   const [shareData, setShareData] = useState(true)
-  const [isLoadingOnline, setIsLoadingOnline] = useState(false)
-  const [isLoadingClinic, setIsLoadingClinic] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState<"ONLINE_PAYMENT" | "PAY_AT_CLINIC">("ONLINE_PAYMENT")
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
   const getPayload = () => ({
@@ -26,11 +27,12 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
     guardianName: data.guardianName,
     shareData,
     concern: shareData ? data.concern : null,
-    aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null
+    aiSummary: shareData ? data.aiAnalysis?.plain_language_summary : null,
+    paymentMethod
   })
 
-  const handlePayAtClinic = async () => {
-    setIsLoadingClinic(true)
+  const handleConfirm = async () => {
+    setIsLoading(true)
     setError("")
 
     try {
@@ -45,41 +47,13 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
       if (!res.ok) {
         throw new Error(result.error || "Failed to confirm appointment")
       }
-
+      
+      updateData("paymentMethod", paymentMethod)
       onNext()
 
     } catch (err: any) {
       setError(err.message)
-      setIsLoadingClinic(false)
-    }
-  }
-
-  const handlePayOnline = async () => {
-    setIsLoadingOnline(true)
-    setError("")
-
-    try {
-      const res = await fetch('/api/payments/create-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(getPayload())
-      })
-
-      const result = await res.json()
-
-      if (!res.ok) {
-        throw new Error(result.error || "Failed to initiate payment")
-      }
-
-      if (result.paymentUrl) {
-        window.location.href = result.paymentUrl
-      } else {
-        throw new Error("No payment URL received")
-      }
-
-    } catch (err: any) {
-      setError(err.message)
-      setIsLoadingOnline(false)
+      setIsLoading(false)
     }
   }
 
@@ -88,144 +62,212 @@ export function Step5Review({ data, updateData, onNext, onPrev }: Step5Props) {
     const [h, m] = t.split(':')
     const hour = parseInt(h, 10)
     const ampm = hour >= 12 ? 'PM' : 'AM'
-    const displayHour = hour > 12 ? hour - 12 : hour
-    return `${displayHour}:${m} ${ampm}`
+    const formattedHour = hour % 12 || 12
+    return `${formattedHour}:${m} ${ampm}`
   }
 
-  const isLoading = isLoadingClinic || isLoadingOnline
+  const formatDate = (d: string) => {
+    if (!d) return ""
+    return new Date(d).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  }
 
   return (
     <div className="flex flex-col h-full animate-in fade-in slide-in-from-right-8 duration-500">
-      <div className="flex-1">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Review & Confirm</h2>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-600">
+          <CheckCircle2 className="h-5 w-5" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Review & Payment</h2>
+          <p className="text-sm text-gray-500">Confirm your details and complete the booking</p>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto pr-2 space-y-6 pb-20">
         
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6 shadow-sm">
-          <div className="p-4 bg-slate-50 border-b border-slate-200">
-            <h3 className="font-semibold text-slate-900 flex items-center">
-              <Calendar className="w-4 h-4 mr-2 text-primary-600" />
-              Appointment Details
-            </h3>
-          </div>
-          <div className="p-4 sm:p-6 grid gap-6 sm:grid-cols-2">
+        {/* Appointment Summary */}
+        <div className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm space-y-4">
+          <h3 className="font-semibold text-gray-900 border-b pb-3 flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-teal-600" />
+            Appointment Details
+          </h3>
+          
+          <div className="grid grid-cols-2 gap-y-4 gap-x-4 text-sm">
             <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Date & Time</p>
-              <p className="font-semibold text-slate-900">{new Date(data.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
-              <p className="text-slate-600 font-medium flex items-center mt-1">
-                <Clock className="w-4 h-4 mr-1 text-slate-400" />
-                {formatTime(data.time)}
-              </p>
+              <p className="text-gray-500 mb-1">Doctor</p>
+              <p className="font-medium text-gray-900">{data.doctorName}</p>
             </div>
-            
             <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Doctor & Clinic</p>
-              <p className="font-semibold text-slate-900 flex items-center">
-                <UserCheck className="w-4 h-4 mr-1 text-slate-400" />
-                Dr. {data.doctorName}
-              </p>
-              <p className="text-slate-600 font-medium flex items-center mt-1">
-                <MapPin className="w-4 h-4 mr-1 text-slate-400" />
-                {data.clinicName}
-              </p>
+              <p className="text-gray-500 mb-1">Clinic</p>
+              <p className="font-medium text-gray-900">{data.clinicName}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 mb-1">Date</p>
+              <p className="font-medium text-gray-900">{formatDate(data.date)}</p>
+            </div>
+            <div>
+              <p className="text-gray-500 mb-1">Time</p>
+              <p className="font-medium text-gray-900">{formatTime(data.time)}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6 shadow-sm">
-           <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-            <h3 className="font-semibold text-slate-900 flex items-center">
-              <ShieldCheck className="w-4 h-4 mr-2 text-primary-600" />
-              Doctor Context Sharing
-            </h3>
-            <Switch 
-              checked={shareData} 
-              onCheckedChange={setShareData} 
-              aria-label="Share context with doctor"
-            />
-          </div>
-          <div className="p-4 sm:p-6">
-            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-              Sharing this context helps Dr. {data.doctorName} prepare for your visit before you arrive. 
-              If disabled, the doctor will only see your name and age.
-            </p>
-            
-            <div className={`transition-all duration-300 overflow-hidden ${shareData ? 'opacity-100 max-h-[500px]' : 'opacity-50 max-h-[200px] grayscale pointer-events-none'}`}>
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">What will be shared:</p>
-                <ul className="space-y-3">
-                  <li className="text-sm">
-                    <span className="font-medium text-slate-900">Your Concern:</span> "{data.concern}"
-                  </li>
-                  {data.aiAnalysis?.plain_language_summary && (
-                    <li className="text-sm">
-                      <span className="font-medium text-slate-900">AI Summary:</span> {data.aiAnalysis.plain_language_summary}
-                    </li>
-                  )}
-                  <li className="text-sm text-slate-600">
-                    <span className="font-medium text-slate-900">Vitals:</span> Age: {data.age} 
-                    {data.height && ` • Height: ${data.height}cm`}
-                    {data.weight && ` • Weight: ${data.weight}kg`}
-                  </li>
-                </ul>
+        {/* Payment Selection */}
+        <div className="space-y-4">
+          <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-teal-600" />
+            Payment Method
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div 
+              onClick={() => setPaymentMethod("ONLINE_PAYMENT")}
+              className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
+                paymentMethod === "ONLINE_PAYMENT" 
+                  ? "border-teal-600 bg-teal-50 shadow-sm" 
+                  : "border-gray-200 bg-white hover:border-teal-200"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${paymentMethod === "ONLINE_PAYMENT" ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-500"}`}>
+                  <QrCode className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-900">Online Payment</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">Pay securely using UPI</p>
+                </div>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => setPaymentMethod("PAY_AT_CLINIC")}
+              className={`cursor-pointer rounded-xl border-2 p-4 transition-all ${
+                paymentMethod === "PAY_AT_CLINIC" 
+                  ? "border-teal-600 bg-teal-50 shadow-sm" 
+                  : "border-gray-200 bg-white hover:border-teal-200"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-full ${paymentMethod === "PAY_AT_CLINIC" ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-500"}`}>
+                  <Banknote className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-900">Pay at Clinic</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">Pay directly at the clinic</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6 shadow-sm">
-          <div className="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-            <h3 className="font-semibold text-slate-900 flex items-center">
-              <CreditCard className="w-4 h-4 mr-2 text-primary-600" />
-              Payment Options
-            </h3>
-            <span className="font-bold text-slate-900 bg-slate-200 px-3 py-1 rounded-full text-sm">
-              ₹500 flat fee
-            </span>
-          </div>
-          <div className="p-4 sm:p-6">
-            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-              Pay online now to secure your slot instantly, or pay when you visit the clinic.
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Button 
-                onClick={handlePayOnline}
-                disabled={isLoading}
-                className="bg-slate-900 text-white hover:bg-slate-800 font-semibold h-12"
-              >
-                {isLoadingOnline ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <CreditCard className="w-4 h-4 mr-2" />
-                )}
-                Pay Online (₹500)
-              </Button>
-              <Button 
-                onClick={handlePayAtClinic}
-                disabled={isLoading}
-                variant="outline"
-                className="font-semibold h-12 border-slate-300 text-slate-700 hover:bg-slate-50"
-              >
-                {isLoadingClinic ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <CheckCircle2 className="w-4 h-4 mr-2" />
-                )}
-                Pay at Clinic
-              </Button>
+        {/* Dynamic Payment Panel */}
+        <div className="bg-white border border-gray-100 rounded-xl p-6 shadow-sm">
+          {paymentMethod === "ONLINE_PAYMENT" ? (
+            <div className="flex flex-col items-center text-center space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="space-y-1">
+                <h4 className="font-semibold text-gray-900 text-lg">Complete Your Payment</h4>
+                <p className="text-sm text-gray-500 max-w-sm mx-auto">
+                  Scan the QR code using your preferred UPI app to complete the payment.
+                </p>
+              </div>
+              
+              <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm inline-block">
+                <div className="relative w-48 h-48 mx-auto">
+                  <Image 
+                    src="/images/payment_qr.jpg" 
+                    alt="UPI Payment QR Code" 
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-gray-700">Scan with any supported UPI app</p>
+                <p className="text-lg font-bold text-teal-700">Amount to Pay: ₹500</p>
+              </div>
+
+              <div className="w-full pt-4 space-y-3">
+                <Button 
+                  onClick={handleConfirm} 
+                  disabled={isLoading}
+                  className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-base"
+                >
+                  {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Payment Completed"}
+                </Button>
+                <p className="text-xs text-gray-500">
+                  Payment confirmation received. Your appointment will be confirmed after payment verification.
+                </p>
+              </div>
             </div>
+          ) : (
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="space-y-1">
+                <h4 className="font-semibold text-gray-900 text-lg">Pay at Clinic</h4>
+                <p className="text-sm text-gray-600">
+                  You can pay for your appointment directly at the clinic when you arrive.
+                </p>
+              </div>
+
+              <ul className="text-sm text-gray-600 space-y-2 list-disc pl-5">
+                <li>Payment is completed at the clinic.</li>
+                <li>No online payment is required right now.</li>
+                <li>Arrive at the clinic at your scheduled appointment time.</li>
+                <li>Keep your appointment details available when you arrive.</li>
+              </ul>
+              
+              <div className="bg-teal-50 text-teal-800 text-sm p-3 rounded-lg flex items-start gap-2 mt-4 border border-teal-100">
+                <ShieldCheck className="h-5 w-5 text-teal-600 shrink-0 mt-0.5" />
+                <p>Your appointment can be booked without making an online payment.</p>
+              </div>
+
+              <div className="w-full pt-4">
+                <Button 
+                  onClick={handleConfirm} 
+                  disabled={isLoading}
+                  className="w-full bg-teal-600 hover:bg-teal-700 h-12 text-base"
+                >
+                  {isLoading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Book Appointment"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Data Sharing Toggle */}
+        <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5 pr-4">
+              <div className="flex items-center gap-2">
+                <UserCheck className="h-4 w-4 text-blue-600" />
+                <label htmlFor="share-data" className="text-sm font-medium text-gray-900">
+                  Share Context with Doctor
+                </label>
+              </div>
+              <p className="text-xs text-gray-500">
+                Help the doctor prepare by sharing your AI summary and vitals.
+              </p>
+            </div>
+            <Switch
+              id="share-data"
+              checked={shareData}
+              onCheckedChange={setShareData}
+            />
           </div>
         </div>
 
         {error && (
-          <div className="p-4 bg-red-50 text-red-600 rounded-lg border border-red-100 text-sm font-medium mb-6">
+          <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm border border-red-100">
             {error}
           </div>
         )}
       </div>
 
-      <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-        <Button variant="ghost" onClick={onPrev} disabled={isLoading} className="font-semibold text-slate-600">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back
+      <div className="mt-auto pt-4 border-t flex justify-between bg-white z-10">
+        <Button variant="outline" onClick={onPrev} disabled={isLoading}>
+          <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
+        {/* Next button removed since actions are inline now */}
       </div>
     </div>
   )
