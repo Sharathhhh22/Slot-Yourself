@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Users, Calendar, Clock, Activity, AlertCircle } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
+import EmergencyButton from "@/components/telephony/EmergencyButton"
 
 export const revalidate = 0
 
@@ -24,7 +25,7 @@ export default async function Dashboard() {
   let query = supabase
     .from('appointments_v2')
     .select(`
-      id, appointment_date, appointment_time, status, payment_mode, transaction_id,
+      id, appointment_date, appointment_time, status, payment_mode, transaction_id, doctor_id,
       doctors(name),
       clinics(name),
       profiles(full_name)
@@ -144,6 +145,13 @@ export default async function Dashboard() {
                           <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">
                             Pay at Clinic
                           </span>
+                        )}
+                        {!isAdminOrStaff && (
+                          <EmergencyButton 
+                            doctorId={apt.doctor_id} 
+                            doctorName={apt.doctors?.name} 
+                            appointmentId={apt.id} 
+                          />
                         )}
                       </div>
                     </div>

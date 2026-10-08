@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarDays, Clock, User, FileText, CheckCircle2, Activity, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { EmergencySettings } from "@/components/telephony/EmergencySettings"
 
 export default function DoctorPortal() {
   const [appointments, setAppointments] = useState<any[]>([])
@@ -112,6 +113,8 @@ export default function DoctorPortal() {
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Doctor Portal</h1>
         <p className="text-slate-500 mt-2">Welcome back, Dr. {doctorProfile?.name}. Here is your schedule.</p>
       </div>
+
+      <EmergencySettings doctorId={doctorProfile?.id} initialEnabled={doctorProfile?.emergency_calls_enabled ?? true} />
 
       <div className="grid gap-6">
         {appointments.length === 0 ? (
