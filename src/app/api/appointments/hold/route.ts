@@ -29,8 +29,8 @@ export async function POST(req: Request) {
           patient_id: user.id,
           clinic_id: clinicId,
           doctor_id: doctorId,
-          appointment_date: date,
-          appointment_time: time,
+          date: date,
+          time: time,
           status: 'held',
           held_until: heldUntil
         }
@@ -57,6 +57,6 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error("Slot hold error:", error)
-    return NextResponse.json({ error: 'Failed to hold slot. Please try again.' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to hold slot: ' + (error?.message || error?.toString()) }, { status: 500 })
   }
 }
