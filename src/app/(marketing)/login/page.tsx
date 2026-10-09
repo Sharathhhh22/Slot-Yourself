@@ -52,7 +52,7 @@ export default function LoginPage() {
     <div className="container mx-auto flex min-h-[80vh] flex-col items-center justify-center p-6 py-12">
       <div className="mb-10 text-center">
         <h1 className="section-title text-slate-900">Welcome Back</h1>
-        <p className="mt-2 text-slate-500">Log in to your APPOINTly account</p>
+        <p className="mt-2 text-slate-500">Log in to your APPOINTLY account</p>
       </div>
 
       <div className="w-full max-w-md">

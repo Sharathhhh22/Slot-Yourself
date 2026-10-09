@@ -7,7 +7,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
           
           <div className="md:col-span-1">
-            <h3 className="text-xl font-bold text-white mb-4 tracking-tight">APPOINTly</h3>
+            <h3 className="text-xl font-bold text-white mb-4 tracking-tight">APPOINTLY</h3>
             <p className="text-sm leading-relaxed mb-6">
               Verified specialists, real-time slots, and no phone calls. Your healthcare journey, simplified.
             </p>
@@ -43,7 +43,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
           <div className="order-2 md:order-1 flex flex-col items-center md:items-start gap-1">
-            <p>© {new Date().getFullYear()} APPOINTly. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} APPOINTLY. All rights reserved.</p>
             <p className="text-xs text-slate-500">Last updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
           </div>
           <div className="flex flex-col items-center md:items-end gap-2 order-1 md:order-2">

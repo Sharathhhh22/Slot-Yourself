@@ -7,7 +7,7 @@ export default function AboutPage() {
       <div className="max-w-[1000px] mx-auto px-6 md:px-12">
         <div className="text-center mb-20">
           <h1 className="text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            About APPOINTly
+            About APPOINTLY
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400">
             We are on a mission to completely eliminate the waiting room.
@@ -19,7 +19,7 @@ export default function AboutPage() {
             The traditional process of booking a medical appointment is broken. It involves phone calls, waiting on hold, miscommunications, and worst of all: showing up at your scheduled time only to wait another hour in a crowded room.
           </p>
           <p className="mb-12">
-            APPOINTly was built to bridge the digital gap between patients and healthcare providers. By connecting directly to clinic management systems, we provide absolute transparency into doctor availability and allow patients to secure their spots instantly.
+            APPOINTLY was built to bridge the digital gap between patients and healthcare providers. By connecting directly to clinic management systems, we provide absolute transparency into doctor availability and allow patients to secure their spots instantly.
           </p>
         </div>
 

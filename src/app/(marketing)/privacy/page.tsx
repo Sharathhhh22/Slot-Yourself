@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | APPOINTly",
+  title: "Privacy Policy | APPOINTLY",
 }
 
 export default function PrivacyPolicy() {

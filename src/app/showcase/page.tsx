@@ -127,7 +127,7 @@ export default function ShowcasePage() {
             Designing Clearer Digital Healthcare Experiences.
           </motion.h1>
           <motion.p variants={fadeInUp} className="text-xl md:text-2xl leading-relaxed text-slate-600 mb-12 max-w-2xl">
-            A comprehensive look at how APPOINTly implements modern, friction-free UX principles to solve complex administrative challenges in clinical environments.
+            A comprehensive look at how APPOINTLY implements modern, friction-free UX principles to solve complex administrative challenges in clinical environments.
           </motion.p>
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
             <Link href="/" className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-slate-900 rounded-md hover:bg-slate-800 transition-colors">
@@ -234,7 +234,7 @@ export default function ShowcasePage() {
             Ready to experience it yourself?
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-            APPOINTly is built to reduce friction in healthcare administration through purposeful, proven design patterns.
+            APPOINTLY is built to reduce friction in healthcare administration through purposeful, proven design patterns.
           </motion.p>
           <motion.div variants={fadeInUp}>
             <Link href="/" className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-teal-700 rounded-md hover:bg-teal-800 transition-colors shadow-sm">
