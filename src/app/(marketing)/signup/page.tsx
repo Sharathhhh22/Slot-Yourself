@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react"
+import { PasswordStrength } from "@/components/ui/password-strength"
 
 export default function SignupPage() {
   const router = useRouter()
@@ -120,6 +121,7 @@ export default function SignupPage() {
                     {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                <PasswordStrength value={regPassword} className="mt-3" />
               </div>
               
               <div className="space-y-2">
