@@ -50,26 +50,19 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="w-full max-w-4xl bg-white/10 backdrop-blur-xl p-4 rounded-3xl border border-white/20 flex flex-col md:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-8"
             >
-              <div className="flex-1 flex items-center bg-white/10 rounded-2xl px-6 py-4">
-                <Search className="w-6 h-6 text-slate-300 mr-4" />
-                <input 
-                  type="text" 
-                  placeholder="Condition, procedure, or doctor..." 
-                  className="bg-transparent border-none text-white placeholder-slate-400 w-full focus:outline-none text-lg"
-                />
-              </div>
-              <div className="flex-1 flex items-center bg-white/10 rounded-2xl px-6 py-4">
-                <MapPin className="w-6 h-6 text-slate-300 mr-4" />
-                <input 
-                  type="text" 
-                  placeholder="City or zip code" 
-                  className="bg-transparent border-none text-white placeholder-slate-400 w-full focus:outline-none text-lg"
-                />
-              </div>
-              <Link href="/appointments/new" className="bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold px-8 py-4 rounded-2xl flex items-center justify-center transition-colors text-lg whitespace-nowrap">
-                Search <ArrowRight className="ml-2 w-5 h-5" />
+              <Link 
+                href="/signup" 
+                className="bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold px-10 py-4 rounded-2xl flex items-center justify-center transition-colors text-lg whitespace-nowrap shadow-[0_0_40px_-10px_rgba(20,184,166,0.5)]"
+              >
+                Create Free Account
+              </Link>
+              <Link 
+                href="/how-it-works" 
+                className="bg-white/10 hover:bg-white/20 text-white font-medium px-10 py-4 rounded-2xl flex items-center justify-center transition-colors text-lg whitespace-nowrap backdrop-blur-sm border border-white/10"
+              >
+                See How It Works <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </motion.div>
           </div>
