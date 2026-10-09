@@ -126,7 +126,7 @@ export function Navbar() {
                   href="/signup"
                   className="inline-flex h-8 items-center justify-center rounded bg-slate-900 dark:bg-white px-5 nav-text text-sm tracking-wide text-white dark:text-slate-900 transition-opacity hover:opacity-90"
                 >
-                  Create Account
+                  Create Free Account
                 </Link>
               </>
             )}
@@ -203,7 +203,7 @@ export function Navbar() {
                       href="/signup"
                       className="inline-flex items-center justify-center w-full h-12 rounded bg-slate-900 dark:bg-white text-[14px] font-medium tracking-wide text-white dark:text-slate-900"
                     >
-                      Create Account
+                      Create Free Account
                     </Link>
                   </>
                 )}

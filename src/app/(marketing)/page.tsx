@@ -67,6 +67,57 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+
+        {/* SOCIAL PROOF SECTION */}
+        <section className="py-20 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-16 text-center">
+            <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-10">Trusted by top healthcare providers</p>
+            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale">
+              {/* Simulated logos using text for now */}
+              <div className="text-2xl font-black font-serif text-slate-800 dark:text-slate-300">Mayo Clinic</div>
+              <div className="text-2xl font-black font-sans text-slate-800 dark:text-slate-300 tracking-tighter">Cleveland Clinic</div>
+              <div className="text-2xl font-black font-sans text-slate-800 dark:text-slate-300">Kaiser Permanente</div>
+              <div className="text-2xl font-black font-serif text-slate-800 dark:text-slate-300 italic">Johns Hopkins</div>
+            </div>
+          </div>
+        </section>
+
+        {/* QUICK FEATURES PREVIEW */}
+        <section className="py-24 bg-white dark:bg-slate-900">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-16">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">Healthcare on your terms.</h2>
+              <p className="text-lg text-slate-600 dark:text-slate-400">Everything you need to manage your health, seamlessly connected in one intelligent platform.</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center mb-6">
+                  <Calendar className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Real-time scheduling</h3>
+                <p className="text-slate-600 dark:text-slate-400">See exactly when doctors are available and book your slot instantly. No more waiting on hold.</p>
+              </div>
+              
+              <div className="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center mb-6">
+                  <Search className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Verified specialists</h3>
+                <p className="text-slate-600 dark:text-slate-400">Every doctor on our platform is thoroughly vetted. Read real reviews from real patients.</p>
+              </div>
+
+              <div className="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
+                <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-2xl flex items-center justify-center mb-6">
+                  <MapPin className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Location-based matching</h3>
+                <p className="text-slate-600 dark:text-slate-400">Find the best care near you. Filter by insurance, distance, and specific medical conditions.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   )
