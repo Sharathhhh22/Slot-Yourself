@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/features", label: "Features" },
   { href: "/how-it-works", label: "How It Works" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
 ]
 
@@ -124,7 +124,7 @@ export function Navbar() {
                 </Link>
                 <Link 
                   href="/signup"
-                  className="inline-flex h-8 items-center justify-center rounded bg-slate-900 dark:bg-white px-5 nav-text text-sm tracking-wide text-white dark:text-slate-900 transition-opacity hover:opacity-90"
+                  className="inline-flex h-8 items-center justify-center rounded bg-teal-600 px-5 nav-text text-sm tracking-wide text-white transition-colors hover:bg-teal-700"
                 >
                   Create Free Account
                 </Link>
@@ -201,7 +201,7 @@ export function Navbar() {
                     </Link>
                     <Link 
                       href="/signup"
-                      className="inline-flex items-center justify-center w-full h-12 rounded bg-slate-900 dark:bg-white text-[14px] font-medium tracking-wide text-white dark:text-slate-900"
+                      className="inline-flex items-center justify-center w-full h-12 rounded bg-teal-600 text-[14px] font-medium tracking-wide text-white transition-colors hover:bg-teal-700"
                     >
                       Create Free Account
                     </Link>
