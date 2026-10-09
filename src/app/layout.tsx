@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import { Outfit } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { FeaturesOverlay } from "@/components/layout/FeaturesOverlay";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const outfit = Outfit({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "APPOINTLY | Book Doctors Instantly",
@@ -31,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", outfit.variable)}>
       <body className={`min-h-screen bg-slate-50 antialiased dark:bg-slate-950 transition-colors duration-300`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {/* 12. skip to content ↓ */}
