@@ -105,7 +105,7 @@ export function FeaturesOverlay() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={scrollToTop}
-            className="fixed bottom-24 right-6 z-50 p-3 bg-white border border-slate-200 shadow-lg rounded-full text-slate-700 hover:text-teal-600 hover:border-teal-200 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="fixed bottom-24 right-6 md:right-12 z-50 p-3 bg-white border border-slate-200 shadow-lg rounded-full text-slate-700 hover:text-teal-600 hover:border-teal-200 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500"
             aria-label="Scroll to top"
           >
             <ArrowUp className="w-5 h-5" />
@@ -115,7 +115,7 @@ export function FeaturesOverlay() {
 
       {/* 20. floating contact */}
       <button
-        className="fixed bottom-6 right-6 z-50 p-4 bg-teal-600 text-white shadow-lg rounded-full hover:bg-teal-700 transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+        className="fixed bottom-6 right-6 md:right-12 z-50 p-4 bg-teal-600 text-white shadow-lg rounded-full hover:bg-teal-700 transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
         aria-label={showContact ? "Close contact support" : "Contact support"}
         onClick={() => setShowContact(!showContact)}
       >
@@ -130,7 +130,7 @@ export function FeaturesOverlay() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[380px] h-[500px] max-h-[80vh] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-24 right-6 md:right-12 z-50 w-[380px] h-[500px] max-h-[80vh] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden flex flex-col"
           >
             {/* Chat Header */}
             <div className="bg-teal-600 p-4 text-white flex items-center gap-3 shrink-0">
@@ -196,7 +196,7 @@ export function FeaturesOverlay() {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-6 left-6 right-24 md:left-auto md:right-24 md:max-w-sm z-40 bg-slate-900 dark:bg-slate-800 text-white p-4 rounded-xl shadow-xl flex flex-col sm:flex-row items-center gap-4 justify-between border border-slate-800 dark:border-slate-700"
+            className="fixed bottom-6 left-6 right-24 md:left-auto md:right-32 md:max-w-sm z-40 bg-slate-900 dark:bg-slate-800 text-white p-4 rounded-xl shadow-xl flex flex-col sm:flex-row items-center gap-4 justify-between border border-slate-800 dark:border-slate-700"
           >
             <p className="text-sm text-slate-300 leading-tight">
               We use strictly necessary cookies to keep you logged in. No tracking.
