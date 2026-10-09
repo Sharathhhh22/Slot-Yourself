@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Building2, CalendarDays, CheckCircle2, User, Phone, Mail, MapPin, Activity, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { CountdownTimer } from "@/components/ui/CountdownTimer"
 import { QRCodeSVG } from 'qrcode.react'
 
 export default function ReceiptPage() {
@@ -73,6 +74,14 @@ export default function ReceiptPage() {
           </div>
           <CardTitle className="text-2xl text-slate-900 font-bold">Digital Pass</CardTitle>
           <p className="text-slate-500 text-sm mb-4">Please present this pass or QR code at the reception desk.</p>
+
+          <div className="my-6">
+            <CountdownTimer 
+              appointmentDate={appointment.appointment_date} 
+              appointmentTime={appointment.appointment_time} 
+              doctorName={appointment.doctor_name}
+            />
+          </div>
           
           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm inline-block mx-auto mb-6">
             <QRCodeSVG 
@@ -195,3 +204,4 @@ export default function ReceiptPage() {
     </div>
   )
 }
+
