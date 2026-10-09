@@ -8,19 +8,19 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
-  title: "SlotUrSelf | Book Doctors Instantly",
-  description: "Book verified specialists and real-time appointment slots in under 60 seconds with SlotUrSelf.",
+  title: "Appointly | Book Doctors Instantly",
+  description: "Book verified specialists and real-time appointment slots in under 60 seconds with Appointly.",
   openGraph: {
-    title: "SlotUrSelf | Book Doctors Instantly",
+    title: "Appointly | Book Doctors Instantly",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
-    url: "https://slot-yourself-7afv.vercel.app",
-    siteName: "SlotUrSelf",
+    url: "https://appointly-7afv.vercel.app",
+    siteName: "Appointly",
     locale: "en_IN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SlotUrSelf",
+    title: "Appointly",
     description: "Book verified specialists and real-time appointment slots in under 60 seconds.",
   },
 };

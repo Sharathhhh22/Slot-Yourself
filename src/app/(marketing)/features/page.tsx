@@ -32,7 +32,7 @@ export default function FeaturesPage() {
             Powerful Features for Modern Healthcare
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400">
-            We built SlotUrSelf to solve the actual problems with booking medical appointments.
+            We built Appointly to solve the actual problems with booking medical appointments.
           </p>
         </div>
 

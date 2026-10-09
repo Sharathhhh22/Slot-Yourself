@@ -23,7 +23,7 @@ export async function sendAppointmentConfirmationEmail(
     const { data, error } = await resend.emails.send({
       from: 'Appointments <onboarding@resend.dev>', // Resend sandbox domain, change for prod
       to: [userEmail],
-      subject: 'Appointment Confirmed - Slot Yourself',
+      subject: 'Appointment Confirmed - Appointly',
       html: `
         <div style="font-family: sans-serif; max-w: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 8px; overflow: hidden;">
           <div style="background-color: #0f172a; padding: 24px; text-align: center;">
@@ -45,7 +45,7 @@ export async function sendAppointmentConfirmationEmail(
             </p>
           </div>
           <div style="background-color: #f8fafc; padding: 16px; text-align: center; border-top: 1px solid #eaeaea;">
-            <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} Slot Yourself. All rights reserved.</p>
+            <p style="margin: 0; font-size: 12px; color: #94a3b8;">&copy; ${new Date().getFullYear()} Appointly. All rights reserved.</p>
           </div>
         </div>
       `

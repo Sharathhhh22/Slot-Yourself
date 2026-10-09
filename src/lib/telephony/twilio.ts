@@ -25,7 +25,7 @@ export class TwilioProvider implements TelephonyProvider {
     const twiml = `
       <Response>
         <Say voice="Polly.Joanna">
-          This is an emergency proxy call from Slot Yourself. 
+          This is an emergency proxy call from Appointly. 
           Your phone numbers are hidden. Connecting you to your doctor now.
         </Say>
         <Dial timeout="30" callerId="${twilioNumber}">
