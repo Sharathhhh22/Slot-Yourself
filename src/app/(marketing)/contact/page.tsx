@@ -31,8 +31,8 @@ export default function ContactPage() {
                 <Mail className="w-6 h-6 text-teal-600 shrink-0 mt-1" />
                 <div>
                   <p className="font-bold text-slate-900 dark:text-white">Email Us</p>
-                  <p>support@APPONTly.com</p>
-                  <p>partnerships@APPONTly.com</p>
+                  <p>support@APPOINTly.com</p>
+                  <p>partnerships@APPOINTly.com</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
