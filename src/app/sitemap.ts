@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://appointly-7afv.vercel.app'
+  const baseUrl = 'https://APPONTly-7afv.vercel.app'
 
   return [
     {

@@ -24,7 +24,7 @@ export function Step6Confirmation({ data }: Step6Props) {
 
   const qrUrl = typeof window !== 'undefined' 
     ? `${window.location.origin}/receipt/${data.appointmentId}` 
-    : `https://appointly-7afv.vercel.app/receipt/${data.appointmentId}`
+    : `https://APPONTly-7afv.vercel.app/receipt/${data.appointmentId}`
 
   return (
     <div className="flex flex-col items-center justify-center py-10 text-center animate-in zoom-in-95 duration-500">

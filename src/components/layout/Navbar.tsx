@@ -63,7 +63,7 @@ export function Navbar() {
           
           <Link href="/" className="flex items-center group">
             <span className="text-[17px] font-bold tracking-tight text-slate-900 dark:text-white transition-opacity duration-200 group-hover:opacity-70">
-              Appointly
+              APPONTly
             </span>
           </Link>
 

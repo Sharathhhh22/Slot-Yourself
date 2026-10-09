@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Appointly",
+  title: "Terms of Service | APPONTly",
 }
 
 export default function TermsOfService() {
@@ -14,14 +14,14 @@ export default function TermsOfService() {
         <section>
           <h2 className="text-2xl font-semibold text-slate-900 mb-4">1. Acceptance of Terms</h2>
           <p>
-            By accessing and using Appointly, you accept and agree to be bound by the terms and provision of this agreement.
+            By accessing and using APPONTly, you accept and agree to be bound by the terms and provision of this agreement.
           </p>
         </section>
         
         <section>
           <h2 className="text-2xl font-semibold text-slate-900 mb-4">2. Medical Disclaimer</h2>
           <p>
-            Appointly is an appointment booking platform. We do not provide medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
+            APPONTly is an appointment booking platform. We do not provide medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
           </p>
         </section>
 

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/dashboard', '/settings', '/profile', '/admin', '/patients', '/appointments/', '/receipt/'],
     },
-    sitemap: 'https://appointly-7afv.vercel.app/sitemap.xml',
+    sitemap: 'https://APPONTly-7afv.vercel.app/sitemap.xml',
   }
 }

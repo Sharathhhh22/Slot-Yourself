@@ -87,7 +87,7 @@ export default function DashboardLayout({
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 dark:border-slate-800 shrink-0">
           <Link href="/dashboard" className="flex items-center space-x-2">
             <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Appointly
+              APPONTly
             </span>
           </Link>
           <button 
