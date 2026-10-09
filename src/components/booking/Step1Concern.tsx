@@ -155,7 +155,7 @@ export function Step1Concern({ data, updateData, onNext }: Step1Props) {
         <div className="space-y-4">
           <Textarea 
             placeholder="e.g., I've had a persistent dry cough and mild fever for the last 3 days..."
-            className="min-h-[160px] text-base p-4 resize-none border-slate-200 focus-visible:ring-primary-500"
+            className="min-h-[160px] text-base p-4 resize-none border-slate-200 focus-visible:ring-primary-500 text-slate-900 dark:text-white bg-white dark:bg-slate-900"
             value={concern}
             onChange={(e) => setConcern(e.target.value)}
             disabled={isLoading}
@@ -196,3 +196,4 @@ export function Step1Concern({ data, updateData, onNext }: Step1Props) {
     </div>
   )
 }
+
