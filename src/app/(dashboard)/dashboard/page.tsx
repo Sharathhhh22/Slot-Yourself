@@ -50,10 +50,10 @@ export default async function Dashboard() {
     <div className="container mx-auto p-4 md:p-6 max-w-[1200px]">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="section-title text-slate-900">
+          <h2 className="section-title text-slate-900 dark:text-white">
             Welcome, {profile?.full_name || 'User'}
           </h2>
-          <p className="text-slate-500 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">{isAdminOrStaff ? 'Clinic Management Dashboard' : 'Your Patient Portal'}</p>
         </div>
       </div>
       
@@ -62,42 +62,42 @@ export default async function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Unique Patients</CardTitle>
-              <Users className="h-4 w-4 text-slate-500" />
+              <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             </CardHeader>
             <CardContent>
-              <div className="card-title text-2xl text-slate-900">{uniquePatients}</div>
-              <p className="text-xs text-slate-500">Registered in system</p>
+              <div className="card-title text-2xl text-slate-900 dark:text-white">{uniquePatients}</div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Registered in system</p>
             </CardContent>
           </Card>
         )}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">{isAdminOrStaff ? 'Total Appointments' : 'My Appointments'}</CardTitle>
-            <Calendar className="h-4 w-4 text-slate-500" />
+            <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900">{totalAppointments}</div>
-            <p className="text-xs text-slate-500">All time bookings</p>
+            <div className="card-title text-2xl text-slate-900 dark:text-white">{totalAppointments}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">All time bookings</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Available Doctors</CardTitle>
-            <Activity className="h-4 w-4 text-slate-500" />
+            <Activity className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900">{doctorsCount || 0}</div>
-            <p className="text-xs text-slate-500">Active specialists</p>
+            <div className="card-title text-2xl text-slate-900 dark:text-white">{doctorsCount || 0}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Active specialists</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Upcoming Visits</CardTitle>
-            <Clock className="h-4 w-4 text-slate-500" />
+            <Clock className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </CardHeader>
           <CardContent>
-            <div className="card-title text-2xl text-slate-900">{upcomingAppointments.length}</div>
-            <p className="text-xs text-slate-500">Scheduled appointments</p>
+            <div className="card-title text-2xl text-slate-900 dark:text-white">{upcomingAppointments.length}</div>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Scheduled appointments</p>
           </CardContent>
         </Card>
       </div>
@@ -112,11 +112,11 @@ export default async function Dashboard() {
           </CardHeader>
           <CardContent>
             {upcomingAppointments.length === 0 ? (
-              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50">
+              <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
                 <div className="text-center">
-                  <Calendar className="mx-auto h-8 w-8 text-slate-400" />
-                  <h3 className="mt-2 text-sm font-semibold text-slate-900">No upcoming appointments</h3>
-                  <p className="mt-1 text-sm text-slate-500">
+                  <Calendar className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-500" />
+                  <h3 className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">No upcoming appointments</h3>
+                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                     You have no scheduled visits at this time.
                   </p>
                 </div>
@@ -124,25 +124,25 @@ export default async function Dashboard() {
             ) : (
               <div className="space-y-4">
                 {upcomingAppointments.slice(0, 5).map((apt: any) => (
-                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 last:border-0 gap-4">
+                  <div key={apt.id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b dark:border-slate-800 pb-4 last:border-0 gap-4">
                     <div>
-                      {isAdminOrStaff && <p className="font-semibold text-primary-700">{apt.profiles?.full_name}</p>}
-                      <p className="font-medium text-slate-900">Dr. {apt.doctors?.name}</p>
-                      <p className="text-sm text-slate-500">{apt.clinics?.name}</p>
+                      {isAdminOrStaff && <p className="font-semibold text-primary-700 dark:text-primary-400">{apt.profiles?.full_name}</p>}
+                      <p className="font-medium text-slate-900 dark:text-white">Dr. {apt.doctors?.name}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{apt.clinics?.name}</p>
                     </div>
                     <div className="sm:text-right">
-                      <p className="font-medium text-slate-900">{apt.appointment_date}</p>
-                      <p className="text-sm text-slate-500">{apt.appointment_time}</p>
+                      <p className="font-medium text-slate-900 dark:text-white">{apt.appointment_date}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{apt.appointment_time}</p>
                       <div className="flex gap-2 justify-end mt-1">
-                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                        <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-400 ring-1 ring-inset ring-blue-700/10 dark:ring-blue-400/20">
                           Upcoming
                         </span>
                         {apt.payment_mode === 'online' ? (
-                          <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                          <span className="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/30 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-400 ring-1 ring-inset ring-green-700/10 dark:ring-green-400/20">
                             Paid Online
                           </span>
                         ) : (
-                          <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-700/10">
+                          <span className="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-900/30 px-2 py-1 text-xs font-medium text-orange-700 dark:text-orange-400 ring-1 ring-inset ring-orange-700/10 dark:ring-orange-400/20">
                             Pay at Clinic
                           </span>
                         )}
