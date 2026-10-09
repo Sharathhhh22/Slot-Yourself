@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUp, MessageCircle, X } from "lucide-react"
 
@@ -12,17 +12,38 @@ export function FeaturesOverlay() {
   const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [isClient, setIsClient] = useState(false)
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  // AI Chat State
+  const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+    { role: 'assistant', content: 'Hi! I am the APPOINTLY AI assistant. How can I help you with your booking today?' }
+  ])
+  const [inputValue, setInputValue] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    if (showContact) {
+      scrollToBottom()
+    }
+  }, [messages, showContact])
+
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault()
-    setContactStatus('sending')
-    // Simulate API call
+    if (!inputValue.trim()) return
+
+    const newMessages = [...messages, { role: 'user', content: inputValue } as const]
+    setMessages(newMessages)
+    setInputValue('')
+    setIsTyping(true)
+
+    // Simulate AI response
     setTimeout(() => {
-      setContactStatus('success')
-      setTimeout(() => {
-        setShowContact(false)
-        setTimeout(() => setContactStatus('idle'), 300)
-      }, 3000)
-    }, 1000)
+      setMessages([...newMessages, { role: 'assistant', content: "I'm a demo AI bot. In a production environment, I would connect to an LLM to answer questions about clinics, doctors, and your appointments!" }])
+      setIsTyping(false)
+    }, 1500)
   }
 
   useEffect(() => {
@@ -101,7 +122,7 @@ export function FeaturesOverlay() {
         {showContact ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
       </button>
 
-      {/* Floating Contact Modal */}
+      {/* Floating AI Chat Modal */}
       <AnimatePresence>
         {showContact && (
           <motion.div
@@ -109,63 +130,61 @@ export function FeaturesOverlay() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[350px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-24 right-6 z-50 w-[380px] h-[500px] max-h-[80vh] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl rounded-2xl overflow-hidden flex flex-col"
           >
-            <div className="bg-teal-600 p-4 text-white">
-              <h3 className="font-bold text-lg">Contact Support</h3>
-              <p className="text-teal-100 text-sm">We typically reply within a few minutes.</p>
+            {/* Chat Header */}
+            <div className="bg-teal-600 p-4 text-white flex items-center gap-3 shrink-0">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                <MessageCircle className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg leading-tight">APPOINTLY AI</h3>
+                <p className="text-teal-100 text-xs">Always here to help.</p>
+              </div>
             </div>
             
-            {contactStatus === 'success' ? (
-              <div className="p-8 text-center flex flex-col items-center justify-center min-h-[250px]">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full flex items-center justify-center mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 dark:bg-slate-950/50">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-teal-600 text-white rounded-tr-sm' 
+                      : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 rounded-tl-sm shadow-sm'
+                  }`}>
+                    {msg.content}
+                  </div>
                 </div>
-                <h4 className="font-bold text-slate-900 dark:text-white mb-2">Message Sent!</h4>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Thank you for reaching out. We will get back to you shortly.</p>
-                <button 
-                  onClick={() => setShowContact(false)}
-                  className="w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                >
-                  Close
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleContactSubmit} className="p-4 flex flex-col gap-4">
-                <div>
-                  <label htmlFor="contact-email" className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Email Address</label>
-                  <input 
-                    id="contact-email"
-                    type="email" 
-                    required
-                    className="w-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    placeholder="you@example.com"
-                  />
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-2xl rounded-tl-sm shadow-sm flex gap-1.5 items-center">
+                    <motion.div className="w-2 h-2 bg-slate-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0 }} />
+                    <motion.div className="w-2 h-2 bg-slate-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }} />
+                    <motion.div className="w-2 h-2 bg-slate-400 rounded-full" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }} />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="contact-message" className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">How can we help?</label>
-                  <textarea 
-                    id="contact-message"
-                    required
-                    rows={4}
-                    className="w-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
-                    placeholder="Type your message here..."
-                  />
-                </div>
-                {contactStatus === 'error' && (
-                  <p className="text-xs text-red-500">Failed to send message. Please try again.</p>
-                )}
-                <button 
-                  type="submit"
-                  disabled={contactStatus === 'sending'}
-                  className="w-full py-2.5 bg-slate-900 dark:bg-teal-600 text-white rounded-lg text-sm font-bold hover:bg-slate-800 dark:hover:bg-teal-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {contactStatus === 'sending' ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            )}
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Chat Input */}
+            <form onSubmit={handleSendMessage} className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shrink-0 flex gap-2">
+              <input 
+                type="text" 
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask me anything..."
+                className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              <button 
+                type="submit"
+                disabled={!inputValue.trim() || isTyping}
+                className="w-10 h-10 bg-teal-600 text-white rounded-xl flex items-center justify-center shrink-0 hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ArrowUp className="w-5 h-5" />
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
