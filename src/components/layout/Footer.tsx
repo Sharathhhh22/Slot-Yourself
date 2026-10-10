@@ -42,13 +42,10 @@ export function Footer() {
               <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms & Conditions</Link>
             </div>
           </div>
-          <div className="flex flex-col items-center md:items-end gap-2 order-1 md:order-2">
-            <p>
-              Developed by <span className="font-semibold text-teal-400">TechSqad</span>
-            </p>
-          </div>
+          
         </div>
       </div>
     </footer>
   )
 }
+

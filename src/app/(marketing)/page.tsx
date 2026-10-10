@@ -14,14 +14,7 @@ export default function Home() {
                style={{ backgroundImage: 'radial-gradient(#14b8a6 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
           
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 font-semibold text-sm mb-8 border border-teal-100 dark:border-teal-800"
-            >
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
-              Trusted by 500+ clinics nationwide
-            </motion.div>
+            
             
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
@@ -52,31 +45,17 @@ export default function Home() {
             >
               <Link 
                 href="/signup" 
-                className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-8 py-3.5 rounded-xl flex items-center justify-center transition-colors text-lg shadow-sm"
+                className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-8 py-3.5 rounded-md flex items-center justify-center transition-colors text-lg shadow-sm"
               >
                 Create Free Account
               </Link>
               <Link 
                 href="/how-it-works" 
-                className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold px-8 py-3.5 rounded-xl flex items-center justify-center transition-colors text-lg border border-slate-200 dark:border-slate-700 shadow-sm"
+                className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold px-8 py-3.5 rounded-md flex items-center justify-center transition-colors text-lg border border-slate-200 dark:border-slate-700 shadow-sm"
               >
                 See How It Works
               </Link>
             </motion.div>
-          </div>
-        </section>
-
-        {/* SOCIAL PROOF SECTION */}
-        <section className="py-20 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
-          <div className="max-w-[1400px] mx-auto px-6 md:px-16 text-center">
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-10">Trusted by top healthcare providers</p>
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale">
-              {/* Simulated logos using text for now */}
-              <div className="text-2xl font-black font-serif text-slate-800 dark:text-slate-300">Mayo Clinic</div>
-              <div className="text-2xl font-black font-sans text-slate-800 dark:text-slate-300 tracking-tighter">Cleveland Clinic</div>
-              <div className="text-2xl font-black font-sans text-slate-800 dark:text-slate-300">Kaiser Permanente</div>
-              <div className="text-2xl font-black font-serif text-slate-800 dark:text-slate-300 italic">Johns Hopkins</div>
-            </div>
           </div>
         </section>
 
@@ -102,7 +81,7 @@ export default function Home() {
                   <Search className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Verified specialists</h3>
-                <p className="text-slate-600 dark:text-slate-400">Every doctor on our platform is thoroughly vetted. Read real reviews from real patients.</p>
+                <p className="text-slate-600 dark:text-slate-400">Every doctor on our platform is thoroughly vetted. See verified credentials and specialties.</p>
               </div>
 
               <div className="p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
@@ -120,3 +99,5 @@ export default function Home() {
     </div>
   )
 }
+
+
