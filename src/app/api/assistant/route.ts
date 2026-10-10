@@ -74,7 +74,7 @@ export async function POST(req: Request) {
     `
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3.8-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
@@ -108,3 +108,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Failed to analyze concern. Please try again.' }, { status: 500 })
   }
 }
+
