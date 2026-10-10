@@ -38,7 +38,8 @@ export default async function Dashboard() {
 
   // Stats calculation
   const totalAppointments = appointments?.length || 0
-  const upcomingAppointments = appointments?.filter(a => a.status === 'upcoming') || []
+  const now = new Date();
+  const upcomingAppointments = appointments?.filter(a => a.status === 'confirmed' && new Date(a.appointment_date + 'T' + a.appointment_time) >= now).sort((a, b) => new Date(a.appointment_date + 'T' + a.appointment_time).getTime() - new Date(b.appointment_date + 'T' + b.appointment_time).getTime()) || []
   
   // Calculate unique patients (only relevant for staff, but we can do it safely here)
   const uniquePatients = new Set(appointments?.map(a => (a.profiles as any)?.full_name)).size
@@ -165,3 +166,4 @@ export default async function Dashboard() {
     </div>
   )
 }
+

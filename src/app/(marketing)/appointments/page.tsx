@@ -33,8 +33,9 @@ export default async function AppointmentsPage() {
     `)
     .order('appointment_date', { ascending: false })
 
-  const upcoming = appointments?.filter(a => a.status === 'upcoming') || []
-  const past = appointments?.filter(a => a.status !== 'upcoming') || []
+  const now = new Date();
+  const upcoming = appointments?.filter(a => ['confirmed', 'held'].includes(a.status) && new Date(a.appointment_date + 'T' + a.appointment_time) >= now) || []
+  const past = appointments?.filter(a => !(['confirmed', 'held'].includes(a.status) && new Date(a.appointment_date + 'T' + a.appointment_time) >= now)) || []
 
   return (
     <div className="container mx-auto p-6 md:p-8">
@@ -211,3 +212,4 @@ export default async function AppointmentsPage() {
     </div>
   )
 }
+
